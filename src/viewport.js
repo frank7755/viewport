@@ -19,6 +19,20 @@ var expando = 0;
 var reference = {};
 
 /**
+ * emit event
+ * @param context
+ * @param event
+ * @param args
+ */
+function emit(context, event, args){
+  args = [].slice.call(args, 0);
+
+  args.unshift(event);
+
+  context.emit.apply(context, args);
+}
+
+/**
  * patch the threshold like css
  * - 1            ==> top: 1, right: 1, bottom: 1, left: 1
  * - [1]          ==> top: 1, right: 1, bottom: 1, left: 1
@@ -29,7 +43,7 @@ var reference = {};
  * @returns {*}
  */
 function patchThreshold(threshold){
-  if (is.number(threshold)) {
+  if (is.number(threshold) && !is.nan(threshold) && !is.infinite(threshold)) {
     threshold = [threshold, threshold, threshold, threshold];
   } else if (is.array(threshold)) {
     var value;
@@ -40,7 +54,7 @@ function patchThreshold(threshold){
       if (set.length < 4) {
         value = threshold[i];
 
-        if (is.number(value)) {
+        if (is.number(threshold) && !is.nan(threshold) && !is.infinite(threshold)) {
           set.push(value);
         }
       } else {
@@ -84,6 +98,7 @@ function patchViewport(container){
 }
 
 function Viewport(viewport, options){
+  this.events = {};
   this.id = expando++;
   this.viewport = $(patchViewport(viewport));
 
@@ -120,8 +135,41 @@ Viewport.prototype = {
       ? this.viewport.find(this.options.target)
       : null;
   },
-  refresh: function (){
+  on: function (event, handler){
+    this.events[event] = this.events[event]
+      || $.Callbacks('memory stopOnFalse');
 
+    this.events[event].add(handler);
+
+    return this;
+  },
+  off: function (event, handler){
+    switch (arguments.length) {
+      case 0:
+        this.events = {};
+        break;
+      case 1:
+        delete this.events[event];
+        break;
+      default:
+        this.events[event] && this.events[event].remove(handler);
+        break;
+    }
+
+    return this;
+  },
+  emit: function (event){
+    var data = [].slice.call(arguments, 0);
+
+    this.events[event] = this.events[event]
+      || $.Callbacks('memory stopOnFalse');
+
+    this.events[event].fireWith(this, data);
+
+    return this;
+  },
+  refresh: function (){
+    this.__findTarget();
   },
   destroy: function (){
     delete reference[this.id];
