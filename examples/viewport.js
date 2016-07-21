@@ -171,11 +171,15 @@ Viewport.prototype = {
   },
   refresh: function (){
     this.__findTarget();
+
+    return this;
   },
   destroy: function (){
     delete reference[this.id];
   }
 };
+
+console.log(is.element(window));
 
 module.exports = Viewport;
 

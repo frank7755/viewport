@@ -178,4 +178,6 @@ Viewport.prototype = {
   }
 };
 
+console.log(is.element(window));
+
 module.exports = Viewport;

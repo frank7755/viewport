@@ -101,6 +101,17 @@ var is = {
    */
   infinite: function (value){
     return value === Infinity || value === -Infinity;
+  },
+  /**
+   * element
+   * @param value
+   * @returns {boolean}
+   */
+  element: function (value){
+    return value !== undefined
+      && typeof HTMLElement !== 'undefined'
+      && value instanceof HTMLElement
+      && value.nodeType === 1;
   }
 };
 
