@@ -13,10 +13,17 @@ define("is", [], function(require, exports, module){
 
 'use strict';
 
+// object to sting
 var toString = Object.prototype.toString;
 
 // type judge
 var is = {
+  /**
+   * type
+   * @param value
+   * @param type
+   * @returns {boolean}
+   */
   type: function (value, type){
     // format type
     type = (type + '').toLowerCase();
@@ -39,41 +46,65 @@ var is = {
         return realType === '[object ' + type + ']';
     }
   },
-  fn: function (fn){
-    return is.type(fn, 'function');
+  /**
+   * fn
+   * @param value
+   * @returns {boolean}
+   */
+  fn: function (value){
+    return is.type(value, 'function');
   },
-  string: function (string){
-    return is.type(string, 'string');
+  /**
+   * string
+   * @param value
+   * @returns {boolean}
+   */
+  string: function (value){
+    return is.type(value, 'string');
   },
-  array: function (array){
-    return is.type(array, 'array');
+  /**
+   * array
+   * @param value
+   * @returns {boolean}
+   */
+  array: function (value){
+    return is.type(value, 'array');
   },
-  number: function (number){
-    return is.type(number, 'number');
+  /**
+   * number
+   * @param value
+   * @returns {boolean}
+   */
+  number: function (value){
+    return is.type(value, 'number');
   },
-  nil: function (nil){
-    return is.type(nil, 'null');
+  /**
+   * nan
+   * @param value
+   * @returns {boolean}
+   */
+  nan: function (value){
+    return is.number(value) && value !== value;
   },
-  regexp: function (regexp){
-    return is.type(regexp, 'regexp');
+  /**
+   * int
+   * @param value
+   * @returns {boolean}
+   */
+  int: function (value){
+    return is.number(value) && parseInt(value, 10) === value;
   },
-  date: function (date){
-    return is.type(date, 'date');
-  },
-  nan: function (nan){
-    return is.number(nan) && nan !== nan;
-  },
-  int: function (int){
-    return is.number(int) && parseInt(int, 10) === int;
-  },
-  boolean: function (boolean){
-    return is.type(boolean, 'boolean');
-  },
-  error: function (error){
-    return is.type(error, 'error');
+  /**
+   * infinite
+   * @param value
+   * @returns {boolean}
+   */
+  infinite: function (value){
+    return value === Infinity || value === -Infinity;
   }
 };
 
+// exports
 module.exports = is;
 
 });
