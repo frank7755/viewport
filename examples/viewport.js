@@ -18,25 +18,6 @@ var is = require('./is');
 
 var expando = 0;
 var reference = {};
-var AP = Array.prototype;
-
-// ES5 15.4.4.20
-// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter
-AP.filter || (AP.filter = function (fn, context){
-  var result = [], val;
-
-  for (var i = 0, len = this.length >>> 0; i < len; i++) {
-    if (i in this) {
-      val = this[i]; // in case fn mutates this
-
-      if (fn.call(context, val, i, this)) {
-        result.push(val);
-      }
-    }
-  }
-
-  return result;
-});
 
 /**
  * patch the threshold like css
@@ -52,25 +33,37 @@ function patchThreshold(threshold){
   if (is.number(threshold)) {
     threshold = [threshold, threshold, threshold, threshold];
   } else if (is.array(threshold)) {
-    threshold = threshold.filter(function (value){
-      return is.number(value);
-    });
+    var value;
+    var set = [];
+    var length = threshold.length;
 
-    switch (threshold.length) {
+    for (var i = 0; i < length; i++) {
+      if (set.length < 4) {
+        value = threshold[i];
+
+        if (is.number(value)) {
+          set.push(value);
+        }
+      } else {
+        break;
+      }
+    }
+
+    switch (set.length) {
       case 0:
         threshold = [0, 0, 0, 0];
         break;
       case 1:
-        threshold = [threshold[0], threshold[0], threshold[0], threshold[0]];
+        threshold = [set[0], set[0], set[0], set[0]];
         break;
       case 2:
-        threshold = [threshold[0], threshold[1], threshold[0], threshold[1]];
+        threshold = [set[0], set[1], set[0], set[1]];
         break;
       case 3:
-        threshold = [threshold[0], threshold[1], threshold[2], threshold[1]];
+        threshold = [set[0], set[1], set[2], set[1]];
         break;
       default:
-        threshold = threshold.slice(0, 4);
+        threshold = set;
         break;
     }
   } else {
@@ -94,13 +87,10 @@ function patchViewport(container){
 function Viewport(viewport, options){
   this.id = expando++;
   this.viewport = $(patchViewport(viewport));
-  this.options = $.extend({
-    delay: 150,
-    target: null,
-    threshold: 0,
-    includeHiddens: false,
-    thresholdBorderReaching: 0
-  }, options);
+
+  this.__initOptions(options);
+  this.__findTarget();
+  this.__init();
 
   reference[this.id] = this;
 }
@@ -108,6 +98,20 @@ function Viewport(viewport, options){
 Viewport.prototype = {
   __init: function (){
 
+  },
+  __initOptions: function (options){
+    options = $.extend({
+      delay: 150,
+      target: null,
+      threshold: 0,
+      skipHidden: true,
+      thresholdBorderReaching: 0
+    }, options);
+
+    options.threshold = patchThreshold(options.threshold);
+    options.thresholdBorderReaching = patchThreshold(options.thresholdBorderReaching);
+
+    this.options = options;
   },
   __filterTargetInViewport: function (){
 
@@ -124,5 +128,7 @@ Viewport.prototype = {
     delete reference[this.id];
   }
 };
+
+module.exports = Viewport;
 
 });
