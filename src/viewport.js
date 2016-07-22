@@ -12,8 +12,8 @@
 
 'use strict';
 
-var $ = require('jquery');
 var is = require('./is');
+var $ = require('jquery');
 
 // id expando
 var expando = 0;
