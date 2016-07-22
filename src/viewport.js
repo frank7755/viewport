@@ -230,7 +230,6 @@ Viewport.prototype = {
     context.target = target;
   },
   __filterTargetInViewport: function (width, height){
-    var rect;
     var result = [];
     var context = this;
     var target = context.target;
@@ -252,7 +251,7 @@ Viewport.prototype = {
 
     // filter elements by their rect info
     target.each(function (index, element){
-      rect = element.getBoundingClientRect();
+      var rect = element.getBoundingClientRect();
 
       // hidden element
       if (rect.top == 0 && rect.bottom == 0 && rect.left == 0 && rect.right == 0) {
