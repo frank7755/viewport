@@ -54,8 +54,8 @@
         });
 
         viewport.on('viewchange', function (e){
-          console.log('target', e.target);
           console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
+          console.log('target: %o --- text: %s', e.target, e.target[0] ? e.target[0].innerText : null);
           console.log('top: %o --- right: %o --- bottom: %o --- left: %o', e.top, e.right, e.bottom, e.left);
         });
       });
