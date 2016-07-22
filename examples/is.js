@@ -47,14 +47,6 @@ var is = {
     }
   },
   /**
-   * fn
-   * @param value
-   * @returns {boolean}
-   */
-  fn: function (value){
-    return is.type(value, 'function');
-  },
-  /**
    * string
    * @param value
    * @returns {boolean}
@@ -85,14 +77,6 @@ var is = {
    */
   nan: function (value){
     return is.number(value) && value !== value;
-  },
-  /**
-   * int
-   * @param value
-   * @returns {boolean}
-   */
-  int: function (value){
-    return is.number(value) && parseInt(value, 10) === value;
   },
   /**
    * infinite
