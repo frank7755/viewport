@@ -1,4 +1,4 @@
-define("viewport", ["jquery","./is"], function(require, exports, module){
+define("viewport", ["./is","jquery"], function(require, exports, module){
 /*!
  * viewport
  * Version: 0.0.1
@@ -13,8 +13,8 @@ define("viewport", ["jquery","./is"], function(require, exports, module){
 
 'use strict';
 
-var $ = require('jquery');
 var is = require('./is');
+var $ = require('jquery');
 
 // id expando
 var expando = 0;
@@ -343,11 +343,13 @@ Viewport.prototype = {
     var viewport = context.viewport;
     var namespace = '.viewport-' + context.id;
 
+    // off event listen
     viewport.off('scroll' + namespace);
     viewport.off('resize' + namespace);
   }
 };
 
+// exports
 module.exports = Viewport;
 
 });
