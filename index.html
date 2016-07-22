@@ -48,16 +48,14 @@
         var viewport = new Viewport(document.getElementById('viewport'), {
           target: '>div',
           threshold: -100,
-          thresholdBorderReaching: [100, 0, 0]
+          thresholdBorderReaching: 100
         });
 
         viewport.on('viewchange', function (e){
-          console.log(e.target);
-          console.log(e.top, e.right, e.bottom, e.left);
-          console.log('x: %s ------ y: %s', e.offsetX, e.offsetY);
+          console.log('target', e.target);
+          console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
+          console.log('top: %o --- right: %o --- bottom: %o --- left: %o', e.top, e.right, e.bottom, e.left);
         });
-
-        // viewport.destroy();
       });
     </script>
   </body>

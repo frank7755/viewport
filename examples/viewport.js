@@ -154,7 +154,7 @@ Viewport.prototype = {
     );
 
     // init event
-    this.__changeViewport(0, 0);
+    context.__changeViewport(scrollTop, scrollLeft);
   },
   __changeViewport: function (vertical, horizontal){
     var context = this;
@@ -330,9 +330,13 @@ Viewport.prototype = {
     return context;
   },
   refresh: function (){
-    this.__findTarget();
+    var context = this;
+    var viewport = context.viewport;
 
-    return this;
+    context.__findTarget();
+    context.__changeViewport(viewport.scrollTop(), viewport.scrollLeft());
+
+    return context;
   },
   destroy: function (){
     var context = this;
