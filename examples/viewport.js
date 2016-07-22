@@ -271,10 +271,12 @@ Viewport.prototype = {
         var left = rect.left - offsetLeft;
         var right = rect.right - offsetLeft;
 
-        if (((top < -threshold[0] && bottom >= -threshold[0])
-          || (top >= -threshold[0] && top <= height + threshold[2]))
-          && ((left < -threshold[3] && right >= -threshold[3])
-          || (left >= -threshold[3] && left <= width + threshold[1]))) {
+        if (
+          !(top - threshold[0] >= height
+          || right + threshold[1] <= 0
+          || bottom + threshold[2] <= 0
+          || left - threshold[3] >= width)
+        ) {
           result.push(target[i]);
         }
       }

@@ -11,12 +11,11 @@
       }
       .viewport {
         width: 500px;
-        height: 350px;
+        height: 300px;
         overflow: auto;
         margin: 66px auto 0;
       }
       .viewport div {
-        width: 1000px;
         height: 100px;
         background: #000;
       }
@@ -27,17 +26,26 @@
   </head>
   <body>
     <div id="viewport" class="viewport">
-      <div id="1"></div>
-      <div id="2"></div>
-      <div id="3"></div>
-      <div id="4"></div>
-      <div id="5"></div>
-      <div id="6"></div>
-      <div id="7"></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
     <script type="text/javascript">
       seajs.use('/examples/viewport', function (Viewport){
-        var viewport = new Viewport(document.getElementById('viewport'), { target: '>div' });
+        var viewport = new Viewport(document.getElementById('viewport'), { target: '>div', threshold: -100 });
 
         viewport.on('viewchange', function (e){
           console.log(e.target);
