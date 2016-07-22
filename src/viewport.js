@@ -105,6 +105,7 @@ function Viewport(viewport, options){
   context.id = expando++;
   context.viewport = $(patchViewport(viewport));
 
+  // init
   context.__initOptions(options);
   context.__findTarget();
   context.__init();
