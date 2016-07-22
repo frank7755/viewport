@@ -217,15 +217,15 @@ Viewport.prototype = {
     var context = this;
     var options = context.options;
     var target = options.target;
-    var viewport = context.__viewport;
+    var __viewport = context.__viewport;
 
     if (is.string(target)) {
-      target = viewport.find(target);
-    } else if (is.element(target) && $.contains(viewport[0], target)) {
+      target = __viewport.find(target);
+    } else if (is.element(target) && $.contains(__viewport[0], target)) {
       target = $(target);
     } else if (target instanceof $) {
       target = $.grep(target, function (element){
-        return $.contains(viewport[0], element);
+        return $.contains(__viewport[0], element);
       });
     } else {
       target = null;
