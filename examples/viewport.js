@@ -84,10 +84,6 @@ function patchThreshold(threshold, absolute){
  * @returns {*}
  */
 function patchViewport(viewport){
-  if (window !== window && is.element(viewport)) {
-    throw new Error('Viewport must be window or a HTMLElement');
-  }
-
   return viewport === window
     ? (document.compatMode == 'CSS1Compat' ? document.documentElement : document.body)
     : viewport;
@@ -100,11 +96,16 @@ function patchViewport(viewport){
  * @constructor
  */
 function Viewport(viewport, options){
+  if (window !== window && is.element(viewport)) {
+    throw new Error('Viewport must be window or a HTMLElement');
+  }
+
   var context = this;
 
   context.events = {};
   context.id = expando++;
-  context.viewport = $(patchViewport(viewport));
+  context.viewport = $(viewport);
+  context.__viewport = $(patchViewport(viewport));
 
   // init
   context.__initOptions(options);
@@ -147,8 +148,10 @@ Viewport.prototype = {
           var event = context.__changeViewport(scrollTop, scrollLeft);
 
           // cahce scroll position
-          scrollTop = event.scrollTop;
-          scrollLeft = event.scrollLeft;
+          if (event) {
+            scrollTop = event.scrollTop;
+            scrollLeft = event.scrollLeft;
+          }
         }, options.delay);
       }
     );
@@ -160,14 +163,15 @@ Viewport.prototype = {
     var context = this;
     var options = context.options;
     var viewport = context.viewport;
+    var __viewport = context.__viewport;
     var thresholdBorderReaching = options.thresholdBorderReaching;
 
-    if (!viewport.is(':visible')) return;
+    if (viewport[0] !== window && !viewport.is(':visible')) return;
 
     var width = viewport.innerWidth();
     var height = viewport.innerHeight();
-    var scrollWidth = viewport[0].scrollWidth;
-    var scrollHeight = viewport[0].scrollHeight;
+    var scrollWidth = __viewport[0].scrollWidth;
+    var scrollHeight = __viewport[0].scrollHeight;
 
     // event
     var event = {};
@@ -214,7 +218,7 @@ Viewport.prototype = {
     var context = this;
     var options = context.options;
     var target = options.target;
-    var viewport = context.viewport;
+    var viewport = context.__viewport;
 
     if (is.string(target)) {
       target = viewport.find(target);
@@ -242,13 +246,18 @@ Viewport.prototype = {
     var threshold = options.threshold;
     var skipHidden = options.skipHidden;
 
-    // get viewport height and width
+    // offsetTop and offsetLeft
+    var offsetTop = 0;
+    var offsetLeft = 0;
     var viewport = context.viewport;
 
-    // adjust the offsetTop and offsetLeft
-    var viewportRect = viewport[0].getBoundingClientRect();
-    var offsetTop = viewportRect.top + Math.round((parseInt(viewport.css('border-top-width')) || 0));
-    var offsetLeft = viewportRect.left + Math.round((parseInt(viewport.css('border-left-width')) || 0));
+    // if not window adjust the offsetTop and offsetLeft
+    if (viewport[0] !== window) {
+      var viewportRect = viewport[0].getBoundingClientRect();
+
+      offsetTop = viewportRect.top + Math.round((parseInt(viewport.css('border-top-width')) || 0));
+      offsetLeft = viewportRect.left + Math.round((parseInt(viewport.css('border-left-width')) || 0));
+    }
 
     // filter elements by their rect info
     target.each(function (index, element){
