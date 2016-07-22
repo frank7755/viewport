@@ -56,10 +56,8 @@
         viewport.on('viewchange', function (e){
           var text = [];
 
-          if (e.target) {
-            for (var i = 0, len = e.target.length; i < len; i++) {
-              text.push(e.target[i].innerText);
-            }
+          for (var i = 0, len = e.target.length; i < len; i++) {
+            text.push(e.target[i].innerText);
           }
 
           console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
