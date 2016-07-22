@@ -220,19 +220,9 @@ Viewport.prototype = {
     } else if (is.element(target) && $.contains(viewport[0], target)) {
       target = $(target);
     } else if (target instanceof $) {
-      var element = null;
-
-      target.each(function (index, value){
-        if ($.contains(viewport[0], value)) {
-          if (!element) {
-            element = $(value);
-          } else {
-            element.add(value);
-          }
-        }
+      target = $.grep(target, function (element){
+        return $.contains(viewport[0], element);
       });
-
-      target = element;
     } else {
       target = null;
     }
