@@ -108,9 +108,10 @@ Viewport.prototype = {
     var viewport = context.viewport;
     var scrollTop = viewport.scrollTop();
     var scrollLeft = viewport.scrollLeft();
+    var namespace = '.viewport-' + id;
 
-    viewport.bind(
-      'scroll.viewport.viewport-' + id + ' resize.viewport.viewport-' + id,
+    viewport.on(
+      'scroll' + namespace + ' resize' + namespace,
       function (){
         clearTimeout(timer);
 
@@ -136,6 +137,8 @@ Viewport.prototype = {
 
     if (!viewport.is(':visible')) return;
 
+    var width = viewport.innerWidth();
+    var height = viewport.innerHeight();
     var scrollWidth = viewport[0].scrollWidth;
     var scrollHeight = viewport[0].scrollHeight;
 
@@ -152,12 +155,12 @@ Viewport.prototype = {
     event.type = 'viewchange';
 
     // target
-    event.target = context.__filterTargetInViewport();
+    event.target = context.__filterTargetInViewport(width, height);
 
     // calculate viewport border reaching detail infos
     event.top = event.scrollTop - thresholdBorderReaching[0] <= 0;
-    event.right = viewport.innerWidth() + event.scrollLeft + thresholdBorderReaching[1] >= scrollWidth;
-    event.bottom = viewport.innerHeight() + event.scrollTop + thresholdBorderReaching[2] >= scrollHeight;
+    event.right = width + event.scrollLeft + thresholdBorderReaching[1] >= scrollWidth;
+    event.bottom = height + event.scrollTop + thresholdBorderReaching[2] >= scrollHeight;
     event.left = event.scrollLeft - thresholdBorderReaching[3] <= 0;
 
     // emit view change event
@@ -210,7 +213,7 @@ Viewport.prototype = {
 
     context.target = target;
   },
-  __filterTargetInViewport: function (){
+  __filterTargetInViewport: function (width, height){
     var rect;
     var result = [];
     var context = this;
@@ -225,13 +228,11 @@ Viewport.prototype = {
 
     // get viewport height and width
     var viewport = context.viewport;
-    var viewportWidth = viewport.innerWidth();
-    var viewportHeight = viewport.innerHeight();
 
     // adjust the offsetTop and offsetLeft
     var viewportRect = viewport[0].getBoundingClientRect();
-    var offsetTop = viewportRect.top + (parseInt(viewport.css('border-top-width')) || 0);
-    var offsetLeft = viewportRect.left + (parseInt(viewport.css('border-left-width')) || 0);
+    var offsetTop = Math.round(viewportRect.top + (parseInt(viewport.css('border-top-width')) || 0));
+    var offsetLeft = Math.round(viewportRect.left + (parseInt(viewport.css('border-left-width')) || 0));
 
     // filter elements by their rect info
     for (var i = 0; i < target.length; i++) {
@@ -244,15 +245,15 @@ Viewport.prototype = {
         }
       } else {
         // visible element
-        var top = Math.round(rect.top - offsetTop);
-        var bottom = Math.round(rect.bottom - offsetTop);
-        var left = Math.round(rect.left - offsetLeft);
-        var right = Math.round(rect.right - offsetLeft);
+        var top = rect.top - offsetTop;
+        var bottom = rect.bottom - offsetTop;
+        var left = rect.left - offsetLeft;
+        var right = rect.right - offsetLeft;
 
         if (((top < -threshold[0] && bottom >= -threshold[0])
-          || (top >= -threshold[0] && top <= viewportHeight + threshold[2]))
+          || (top >= -threshold[0] && top <= height + threshold[2]))
           && ((left < -threshold[3] && right >= -threshold[3])
-          || (left >= -threshold[3] && left <= viewportWidth + threshold[1]))) {
+          || (left >= -threshold[3] && left <= width + threshold[1]))) {
           result.push(target[i]);
         }
       }
@@ -304,6 +305,13 @@ Viewport.prototype = {
     return this;
   },
   destroy: function (){
+    var context = this;
+    var viewport = context.viewport;
+    var namespace = '.viewport-' + context.id;
+
+    viewport.off('scroll' + namespace);
+    viewport.off('resize' + namespace);
+
     delete reference[this.id];
   }
 };
