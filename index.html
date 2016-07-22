@@ -45,10 +45,15 @@
     </div>
     <script type="text/javascript">
       seajs.use('/examples/viewport', function (Viewport){
-        var viewport = new Viewport(document.getElementById('viewport'), { target: '>div', threshold: -100 });
+        var viewport = new Viewport(document.getElementById('viewport'), {
+          target: '>div',
+          threshold: -100,
+          thresholdBorderReaching: [100, 0, 0]
+        });
 
         viewport.on('viewchange', function (e){
           console.log(e.target);
+          console.log(e.top, e.right, e.bottom, e.left);
           console.log('x: %s ------ y: %s', e.offsetX, e.offsetY);
         });
 

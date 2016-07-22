@@ -26,10 +26,15 @@ var expando = 0;
  * - [1, 2, 3]    ==> top: 1, right: 2, bottom: 3, left: 2
  * - [1, 2, 3, 4] ==> top: 1, right: 2, bottom: 3, left: 4
  * @param threshold
+ * @param absolute
  * @returns {*}
  */
-function patchThreshold(threshold){
+function patchThreshold(threshold, absolute){
   if (is.number(threshold) && !is.nan(threshold) && !is.infinite(threshold)) {
+    if (absolute) {
+      threshold = Math.abs(threshold);
+    }
+
     threshold = [threshold, threshold, threshold, threshold];
   } else if (is.array(threshold)) {
     var value;
@@ -40,8 +45,8 @@ function patchThreshold(threshold){
       if (set.length < 4) {
         value = threshold[i];
 
-        if (is.number(threshold) && !is.nan(threshold) && !is.infinite(threshold)) {
-          set.push(value);
+        if (is.number(value) && !is.nan(value) && !is.infinite(value)) {
+          set.push(absolute ? Math.abs(value) : value);
         }
       } else {
         break;
@@ -199,7 +204,7 @@ Viewport.prototype = {
     }, options);
 
     options.threshold = patchThreshold(options.threshold);
-    options.thresholdBorderReaching = patchThreshold(options.thresholdBorderReaching);
+    options.thresholdBorderReaching = patchThreshold(options.thresholdBorderReaching, true);
 
     this.options = options;
   },
