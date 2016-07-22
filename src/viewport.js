@@ -88,13 +88,13 @@ function patchThreshold(threshold){
 
 /**
  * patch the viewport if it is the window object
- * @param container
+ * @param viewport
  * @returns {*}
  */
-function patchViewport(container){
-  return container === window
+function patchViewport(viewport){
+  return viewport === window
     ? (document.compatMode == 'CSS1Compat' ? document.documentElement : document.body)
-    : container;
+    : viewport;
 }
 
 function Viewport(viewport, options){
@@ -128,7 +128,49 @@ Viewport.prototype = {
     this.options = options;
   },
   __filterTargetInViewport: function (){
+    var rect;
+    var result = [];
+    var target = this.target;
+    var options = this.options;
+    var threshold = options.threshold;
+    var skipHidden = options.skipHidden;
 
+    // get viewport height and width
+    var viewport = this.viewport;
+    var viewportWidth = viewport.innerWidth();
+    var viewportHeight = viewport.innerHeight();
+
+    // adjust the offsetTop and offsetLeft
+    var viewportRect = viewport[0].getBoundingClientRect();
+    var offsetTop = viewportRect.top + (parseInt(viewport.css('border-top-width')) || 0);
+    var offsetLeft = viewportRect.left + (parseInt(viewport.css('border-left-width')) || 0);
+
+    // filter elements by their rect info
+    for (var i = 0; i < target.length; i++) {
+      rect = target[i].getBoundingClientRect();
+
+      // hidden element
+      if (rect.top == 0 && rect.bottom == 0 && rect.left == 0 && rect.right == 0) {
+        if (!skipHidden) {
+          result.push(target[i]);
+        }
+      } else {
+        // visible element
+        var top = Math.round(rect.top - offsetTop);
+        var bottom = Math.round(rect.bottom - offsetTop);
+        var left = Math.round(rect.left - offsetLeft);
+        var right = Math.round(rect.right - offsetLeft);
+
+        if (((top < -threshold[0] && bottom >= -threshold[0])
+          || (top >= -threshold[0] && top <= viewportHeight + threshold[2]))
+          && ((left < -threshold[3] && right >= -threshold[3])
+          || (left >= -threshold[3] && left <= viewportWidth + threshold[1]))) {
+          result.push(target[i]);
+        }
+      }
+    }
+
+    return result;
   },
   __findTarget: function (){
     this.target = this.options.target
