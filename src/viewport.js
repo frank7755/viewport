@@ -19,20 +19,6 @@ var expando = 0;
 var reference = {};
 
 /**
- * emit event
- * @param context
- * @param event
- * @param args
- */
-function emit(context, event, args){
-  args = [].slice.call(args, 0);
-
-  args.unshift(event);
-
-  context.emit.apply(context, args);
-}
-
-/**
  * patch the threshold like css
  * - 1            ==> top: 1, right: 1, bottom: 1, left: 1
  * - [1]          ==> top: 1, right: 1, bottom: 1, left: 1
@@ -98,20 +84,86 @@ function patchViewport(viewport){
 }
 
 function Viewport(viewport, options){
-  this.events = {};
-  this.id = expando++;
-  this.viewport = $(patchViewport(viewport));
+  var context = this;
 
-  this.__initOptions(options);
-  this.__findTarget();
-  this.__init();
+  context.events = {};
+  context.id = expando++;
+  context.viewport = $(patchViewport(viewport));
 
-  reference[this.id] = this;
+  context.__initOptions(options);
+  context.__findTarget();
+  context.__init();
+
+  reference[context.id] = context;
 }
 
 Viewport.prototype = {
   __init: function (){
+    // delay trigger the scroll or resize event.
+    var timer;
+    var context = this;
+    var id = context.id;
+    var options = context.options;
+    var viewport = context.viewport;
+    var scrollTop = viewport.scrollTop();
+    var scrollLeft = viewport.scrollLeft();
 
+    viewport.bind(
+      'scroll.viewport.viewport-' + id + ' resize.viewport.viewport-' + id,
+      function (){
+        clearTimeout(timer);
+
+        timer = setTimeout(function (){
+          // trigger the viewchange event internally.
+          var event = context.__changeViewport(scrollTop, scrollLeft);
+
+          // cahce scroll position
+          scrollTop = event.scrollTop;
+          scrollLeft = event.scrollLeft;
+        }, options.delay);
+      }
+    );
+
+    // init event
+    this.__changeViewport(0, 0);
+  },
+  __changeViewport: function (vertical, horizontal){
+    var context = this;
+    var options = context.options;
+    var viewport = context.viewport;
+    var thresholdBorderReaching = options.thresholdBorderReaching;
+
+    if (!viewport.is(':visible')) return;
+
+    var scrollWidth = viewport[0].scrollWidth;
+    var scrollHeight = viewport[0].scrollHeight;
+
+    // event
+    var event = {};
+
+    // scrollbar position
+    event.scrollTop = viewport.scrollTop();
+    event.scrollLeft = viewport.scrollLeft();
+    event.offsetY = event.scrollTop - vertical;
+    event.offsetX = event.scrollLeft - horizontal;
+
+    // event type
+    event.type = 'viewchange';
+
+    // target
+    event.target = context.__filterTargetInViewport();
+
+    // calculate viewport border reaching detail infos
+    event.top = event.scrollTop - thresholdBorderReaching[0] <= 0;
+    event.right = viewport.innerWidth() + event.scrollLeft + thresholdBorderReaching[1] >= scrollWidth;
+    event.bottom = viewport.innerHeight() + event.scrollTop + thresholdBorderReaching[2] >= scrollHeight;
+    event.left = event.scrollLeft - thresholdBorderReaching[3] <= 0;
+
+    // emit view change event
+    context.emit(event.type, event);
+
+    // return scrollbar position
+    return event;
   },
   __initOptions: function (options){
     options = $.extend({
@@ -127,16 +179,51 @@ Viewport.prototype = {
 
     this.options = options;
   },
+  __findTarget: function (){
+    var context = this;
+    var options = context.options;
+    var target = options.target;
+    var viewport = context.viewport;
+
+    if (is.string(target)) {
+      target = viewport.find(target);
+    } else if (is.element(target) && $.contains(viewport[0], target)) {
+      target = $(target);
+    } else if (target instanceof $) {
+      var element = null;
+
+      target.each(function (index, value){
+        if ($.contains(viewport[0], value)) {
+          if (!element) {
+            element = $(value);
+          } else {
+            element.add(value);
+          }
+        }
+      });
+
+      target = element;
+    } else {
+      target = null;
+    }
+
+    context.target = target;
+  },
   __filterTargetInViewport: function (){
     var rect;
     var result = [];
-    var target = this.target;
-    var options = this.options;
+    var context = this;
+    var target = context.target;
+
+    // target is null
+    if (target === null) return result;
+
+    var options = context.options;
     var threshold = options.threshold;
     var skipHidden = options.skipHidden;
 
     // get viewport height and width
-    var viewport = this.viewport;
+    var viewport = context.viewport;
     var viewportWidth = viewport.innerWidth();
     var viewportHeight = viewport.innerHeight();
 
@@ -172,43 +259,43 @@ Viewport.prototype = {
 
     return result;
   },
-  __findTarget: function (){
-    this.target = this.options.target
-      ? this.viewport.find(this.options.target)
-      : null;
-  },
   on: function (event, handler){
-    this.events[event] = this.events[event]
+    var context = this;
+
+    context.events[event] = context.events[event]
       || $.Callbacks('memory stopOnFalse');
 
-    this.events[event].add(handler);
+    context.events[event].add(handler);
 
-    return this;
+    return context;
   },
   off: function (event, handler){
+    var context = this;
+
     switch (arguments.length) {
       case 0:
-        this.events = {};
+        context.events = {};
         break;
       case 1:
-        delete this.events[event];
+        delete context.events[event];
         break;
       default:
-        this.events[event] && this.events[event].remove(handler);
+        context.events[event] && context.events[event].remove(handler);
         break;
     }
 
-    return this;
+    return context;
   },
   emit: function (event){
-    var data = [].slice.call(arguments, 0);
+    var context = this;
+    var data = [].slice.call(arguments, 1);
 
-    this.events[event] = this.events[event]
+    context.events[event] = context.events[event]
       || $.Callbacks('memory stopOnFalse');
 
-    this.events[event].fireWith(this, data);
+    this.events[event].fireWith(context, data);
 
-    return this;
+    return context;
   },
   refresh: function (){
     this.__findTarget();
@@ -219,7 +306,5 @@ Viewport.prototype = {
     delete reference[this.id];
   }
 };
-
-console.log(is.element(window));
 
 module.exports = Viewport;
