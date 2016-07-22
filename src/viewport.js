@@ -15,8 +15,8 @@
 var $ = require('jquery');
 var is = require('./is');
 
+// id expando
 var expando = 0;
-var reference = {};
 
 /**
  * patch the threshold like css
@@ -78,6 +78,10 @@ function patchThreshold(threshold){
  * @returns {*}
  */
 function patchViewport(viewport){
+  if (window !== window && is.element(viewport)) {
+    throw new Error('Viewport must be window or a HTMLElement');
+  }
+
   return viewport === window
     ? (document.compatMode == 'CSS1Compat' ? document.documentElement : document.body)
     : viewport;
@@ -93,8 +97,6 @@ function Viewport(viewport, options){
   context.__initOptions(options);
   context.__findTarget();
   context.__init();
-
-  reference[context.id] = context;
 }
 
 Viewport.prototype = {
@@ -310,8 +312,6 @@ Viewport.prototype = {
 
     viewport.off('scroll' + namespace);
     viewport.off('resize' + namespace);
-
-    delete reference[this.id];
   }
 };
 
