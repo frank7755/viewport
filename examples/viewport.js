@@ -88,6 +88,12 @@ function patchViewport(viewport){
     : viewport;
 }
 
+/**
+ * Viewport
+ * @param viewport
+ * @param options
+ * @constructor
+ */
 function Viewport(viewport, options){
   var context = this;
 
@@ -100,6 +106,19 @@ function Viewport(viewport, options){
   context.__init();
 }
 
+/**
+ * @type {{
+ *   __init: Viewport.__init,
+ *   __changeViewport: Viewport.__changeViewport,
+ *   __initOptions: Viewport.__initOptions,
+ *   __findTarget: Viewport.__findTarget,
+ *   __filterTargetInViewport: Viewport.__filterTargetInViewport,
+ *   on: Viewport.on, off: Viewport.off,
+ *   emit: Viewport.emit,
+ *   refresh: Viewport.refresh,
+ *   destroy: Viewport.destroy
+ * }}
+ */
 Viewport.prototype = {
   __init: function (){
     // delay trigger the scroll or resize event.
