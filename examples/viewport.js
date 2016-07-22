@@ -252,8 +252,8 @@ Viewport.prototype = {
 
     // adjust the offsetTop and offsetLeft
     var viewportRect = viewport[0].getBoundingClientRect();
-    var offsetTop = Math.round(viewportRect.top + (parseInt(viewport.css('border-top-width')) || 0));
-    var offsetLeft = Math.round(viewportRect.left + (parseInt(viewport.css('border-left-width')) || 0));
+    var offsetTop = viewportRect.top + Math.round((parseInt(viewport.css('border-top-width')) || 0));
+    var offsetLeft = viewportRect.left + Math.round((parseInt(viewport.css('border-left-width')) || 0));
 
     // filter elements by their rect info
     for (var i = 0; i < target.length; i++) {
@@ -271,6 +271,7 @@ Viewport.prototype = {
         var left = rect.left - offsetLeft;
         var right = rect.right - offsetLeft;
 
+        // adjust position
         if (
           !(top - threshold[0] >= height
           || right + threshold[1] <= 0
