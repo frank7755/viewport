@@ -252,13 +252,13 @@ Viewport.prototype = {
     var offsetLeft = viewportRect.left + Math.round((parseInt(viewport.css('border-left-width')) || 0));
 
     // filter elements by their rect info
-    for (var i = 0; i < target.length; i++) {
-      rect = target[i].getBoundingClientRect();
+    target.each(function (index, element){
+      rect = element.getBoundingClientRect();
 
       // hidden element
       if (rect.top == 0 && rect.bottom == 0 && rect.left == 0 && rect.right == 0) {
         if (!skipHidden) {
-          result.push(target[i]);
+          result.push(element);
         }
       } else {
         // visible element
@@ -274,10 +274,10 @@ Viewport.prototype = {
           || bottom + threshold[2] <= 0
           || left - threshold[3] >= width)
         ) {
-          result.push(target[i]);
+          result.push(element);
         }
       }
-    }
+    });
 
     return result;
   },
