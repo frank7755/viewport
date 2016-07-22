@@ -342,9 +342,11 @@ Viewport.prototype = {
     var viewport = context.viewport;
     var namespace = '.viewport-' + context.id;
 
+    // off event listen
     viewport.off('scroll' + namespace);
     viewport.off('resize' + namespace);
   }
 };
 
+// exports
 module.exports = Viewport;
