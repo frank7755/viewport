@@ -270,6 +270,7 @@ Viewport.prototype = {
         var left = rect.left - offsetLeft;
         var right = rect.right - offsetLeft;
 
+        // adjust position
         if (
           !(top - threshold[0] >= height
           || right + threshold[1] <= 0
