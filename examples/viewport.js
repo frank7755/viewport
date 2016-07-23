@@ -255,8 +255,8 @@ Viewport.prototype = {
     if (viewport[0] !== window) {
       var viewportRect = viewport[0].getBoundingClientRect();
 
-      offsetTop = viewportRect.top + Math.round((parseInt(viewport.css('border-top-width')) || 0));
-      offsetLeft = viewportRect.left + Math.round((parseInt(viewport.css('border-left-width')) || 0));
+      offsetTop = viewportRect.top + (Math.round(viewport.css('border-top-width')) || 0);
+      offsetLeft = viewportRect.left + (Math.round(viewport.css('border-left-width')) || 0);
     }
 
     // filter elements by their rect info
