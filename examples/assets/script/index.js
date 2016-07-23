@@ -22,7 +22,9 @@ $(function (){
 
   viewport.on('viewchange', function (e){
     for (var key in info) {
-      info[key].text(e[key]);
+      if (info.hasOwnProperty(key)) {
+        info[key].text(e[key]);
+      }
     }
 
     var panel = e.target.shift();
@@ -78,6 +80,19 @@ $(function (){
   win.on('scroll', navFixed);
 
   navFixed();
+
+  var html = $('html, body');
+
+  nav.on('click', '.ui-body-nav li', function (e){
+    e.preventDefault();
+
+    var id = this.id;
+    var panel = $('[data-ref=' + id + ']');
+
+    html.animate({
+      scrollTop: panel.offset().top
+    });
+  });
 });
 
 });
