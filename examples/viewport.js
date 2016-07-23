@@ -128,7 +128,7 @@ function Viewport(viewport, options){
  */
 Viewport.prototype = {
   __init: function (){
-    // delay trigger the scroll or resize event.
+    // delay trigger the scroll and resize event.
     var timer;
     var context = this;
     var id = context.id;
