@@ -62,7 +62,19 @@
 
           console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
           console.log('target: %o --- text: %s', e.target, '[' + text.join(', ') + ']');
-          console.log('top: %o --- right: %o --- bottom: %o --- left: %o', e.top, e.right, e.bottom, e.left);
+          console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.top, e.top ? ' ' : '');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('%o                                                 %o', e.left, e.right);
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('|                                                       |');
+          console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.bottom, e.bottom ? ' ' : '');
         });
       });
     </script>
