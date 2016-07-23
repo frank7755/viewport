@@ -334,7 +334,7 @@ Viewport.prototype = {
     var viewport = context.viewport;
 
     // if set options
-    if (is.type(options, 'object')) {
+    if (arguments.length && is.type(options, 'object')) {
       context.__initOptions($.extend(context.options, options));
     }
 
