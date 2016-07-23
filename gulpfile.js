@@ -194,8 +194,9 @@ function onpath(path, property, file, wwwroot){
     path = path.replace(/\\+/g, '/');
   }
 
-  path = path.replace('/viewport/examples/assets/css/', '/viewport/examples/assets/style/');
-  path = path.replace('/viewport/examples/assets/js/', '/viewport/examples/assets/script/');
+  path = path.replace('/examples/assets/css/', './assets/style/');
+  path = path.replace('/examples/assets/js/', './assets/script/');
+  path = path.replace('/examples/assets/images/', './assets/images/');
 
   return path;
 }
@@ -377,7 +378,7 @@ gulp.task('watch', ['default'], function (){
         .pipe(plumber())
         .pipe(css({
           onpath: function (path){
-            return path.replace('/viewport/examples/assets/css/', '/viewport/examples/assets/style/');
+            return path.replace('/examples/assets/css/', './assets/style/');
           }
         }))
         .pipe(gulp.dest('examples/assets/style'))
