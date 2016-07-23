@@ -326,9 +326,14 @@ Viewport.prototype = {
 
     return context;
   },
-  refresh: function (){
+  refresh: function (options){
     var context = this;
     var viewport = context.viewport;
+
+    // if set options
+    if (is.type(options, 'object')) {
+      context.__initOptions($.extend(context.options, options));
+    }
 
     context.__findTarget();
     context.__changeViewport(viewport.scrollTop(), viewport.scrollLeft());
