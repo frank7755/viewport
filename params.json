@@ -1,0 +1,6 @@
+{
+  "name": "Viewport",
+  "tagline": "A library for get a callback when any element becomes visible in a viewport (window or custom viewport)",
+  "body": "viewport\r\n=========\r\n\r\n>A library for get a callback when any element becomes visible in a viewport (window or custom viewport)\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
