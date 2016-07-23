@@ -141,8 +141,10 @@ Viewport.prototype = {
     viewport.on(
       'scroll' + namespace + ' resize' + namespace,
       function (){
+        // clear timer
         clearTimeout(timer);
 
+        // delay execute
         timer = setTimeout(function (){
           // trigger the viewchange event internally.
           var event = context.__changeViewport(scrollTop, scrollLeft);
