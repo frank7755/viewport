@@ -8,8 +8,8 @@
     <script type="text/javascript">seajs.use('/examples/assets/script/index');</script>
   </head>
   <body>
-    <div id="viewport" class="ui-main">
-      <div class="ui-nav">
+    <div class="ui-main">
+      <div id="nav" class="ui-nav">
         <div class="ui-panel">
           <div class="ui-panel-header">导航</div>
           <div class="ui-panel-body">
@@ -24,6 +24,20 @@
               <li><a href="#">图片展示八</a></li>
               <li><a href="#">图片展示九</a></li>
             </ul>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">状态监听</div>
+          <div class="ui-panel-body">
+            <p>事件触发者： <span data-info="emitter"></span></p>
+            <p>到达上边界： <span data-info="top"></span></p>
+            <p>到达右边界： <span data-info="right"></span></p>
+            <p>到达下边界： <span data-info="bottom"></span></p>
+            <p>到达左边界： <span data-info="left"></span></p>
+            <p>横向滚动条位置： <span data-info="scrollLeft"></span></p>
+            <p>横向滚动偏移量： <span data-info="offsetX"></span></p>
+            <p>纵向滚动条位置： <span data-info="scrollTop"></span></p>
+            <p>纵向滚动偏移量： <span data-info="offsetY"></span></p>
           </div>
         </div>
       </div>
