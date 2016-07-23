@@ -60,6 +60,7 @@
             text.push(e.target[i].innerText);
           }
 
+          console.log('emitter: %s', e.emitter);
           console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
           console.log('target: %o --- text: %s', e.target, '[' + text.join(', ') + ']');
           console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.top, e.top ? ' ' : '');

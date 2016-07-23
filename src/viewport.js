@@ -139,14 +139,14 @@ Viewport.prototype = {
 
     viewport.on(
       'scroll' + namespace + ' resize' + namespace,
-      function (){
+      function (e){
         // clear timer
         clearTimeout(timer);
 
         // delay execute
         timer = setTimeout(function (){
           // trigger the viewchange event internally.
-          var event = context.__changeViewport(scrollTop, scrollLeft);
+          var event = context.__changeViewport(e.type, scrollTop, scrollLeft);
 
           // cahce scroll position
           if (event) {
@@ -158,9 +158,9 @@ Viewport.prototype = {
     );
 
     // init event
-    context.__changeViewport(scrollTop, scrollLeft);
+    context.__changeViewport('init', scrollTop, scrollLeft);
   },
-  __changeViewport: function (vertical, horizontal){
+  __changeViewport: function (emitter, vertical, horizontal){
     var context = this;
     var options = context.options;
     var viewport = context.viewport;
@@ -182,6 +182,9 @@ Viewport.prototype = {
     event.scrollLeft = viewport.scrollLeft();
     event.offsetY = event.scrollTop - vertical;
     event.offsetX = event.scrollLeft - horizontal;
+
+    // emitter
+    event.emitter = emitter;
 
     // event type
     event.type = 'viewchange';
@@ -338,7 +341,7 @@ Viewport.prototype = {
     }
 
     context.__findTarget();
-    context.__changeViewport(viewport.scrollTop(), viewport.scrollLeft());
+    context.__changeViewport('refresh', viewport.scrollTop(), viewport.scrollLeft());
 
     return context;
   },
