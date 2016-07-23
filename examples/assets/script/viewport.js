@@ -129,7 +129,6 @@ function Viewport(viewport, options){
 Viewport.prototype = {
   __init: function (){
     // delay trigger the scroll and resize event.
-    var timer;
     var context = this;
     var id = context.id;
     var options = context.options;
@@ -138,25 +137,41 @@ Viewport.prototype = {
     var scrollLeft = viewport.scrollLeft();
     var namespace = '.viewport-' + id;
 
-    viewport.on(
-      'scroll' + namespace + ' resize' + namespace,
-      function (e){
+    // change viewport
+    function changeViewport(e){
+      // trigger the viewchange event internally.
+      var event = context.__changeViewport(e.type, scrollTop, scrollLeft);
+
+      // cahce scroll position
+      if (event) {
+        scrollTop = event.scrollTop;
+        scrollLeft = event.scrollLeft;
+      }
+    }
+
+    // event handler
+    var handler;
+
+    // delay
+    if (options.delay) {
+      var timer;
+
+      // handler
+      handler = function (e){
         // clear timer
         clearTimeout(timer);
 
         // delay execute
         timer = setTimeout(function (){
-          // trigger the viewchange event internally.
-          var event = context.__changeViewport(e.type, scrollTop, scrollLeft);
-
-          // cahce scroll position
-          if (event) {
-            scrollTop = event.scrollTop;
-            scrollLeft = event.scrollLeft;
-          }
+          changeViewport(e);
         }, options.delay);
-      }
-    );
+      };
+    } else {
+      handler = changeViewport;
+    }
+
+    // bind event
+    viewport.on('scroll' + namespace + ' resize' + namespace, handler);
 
     // init event
     context.__changeViewport('init', scrollTop, scrollLeft);
@@ -214,6 +229,7 @@ Viewport.prototype = {
       thresholdBorderReaching: 0
     }, options);
 
+    options.delay = Math.max(0, options.delay);
     options.threshold = patchThreshold(options.threshold);
     options.thresholdBorderReaching = patchThreshold(options.thresholdBorderReaching, true);
 
