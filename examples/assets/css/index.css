@@ -183,3 +183,6 @@ img.ui-thumbnail {
 .ui-nav .ui-panel-body > p {
   padding: .4em;
 }
+.ui-nav .ui-panel-body > p > span {
+  color: #0e90d2;
+}

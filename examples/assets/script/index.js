@@ -1,3 +1,4 @@
+define("index", ["./jquery","./viewport"], function(require, exports, module){
 /**
  * Created by nuintun on 2016/7/23.
  */
@@ -77,4 +78,6 @@ $(function (){
   win.on('scroll', navFixed);
 
   navFixed();
+});
+
 });
