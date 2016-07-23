@@ -3,81 +3,329 @@
   <head>
     <meta charset="UTF-8">
     <title>viewport</title>
+    <link rel="stylesheet" type="text/css" href="/examples/assets/style/index.css"/>
     <script type="text/javascript" src="/examples/assets/script/sea.js"></script>
-    <style type="text/css">
-      body {
-        margin: 0; padding: 0;
-        text-align: center;
-      }
-      .viewport {
-        width: 500px;
-        height: 300px;
-        overflow: auto;
-        margin: 66px auto 0;
-      }
-      .viewport div {
-        height: 100px;
-        background: #000;
-        color: #fff;
-        line-height: 100px;
-      }
-      .viewport div:nth-of-type(even) {
-        background: #f00;
-      }
-    </style>
+    <script type="text/javascript">seajs.use('/examples/assets/script/index');</script>
   </head>
   <body>
-    <div id="viewport" class="viewport">
-      <div>0</div>
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-      <div>7</div>
-      <div>8</div>
-      <div>9</div>
-      <div>10</div>
-      <div>11</div>
-      <div>12</div>
-      <div>13</div>
-      <div>14</div>
-      <div>15</div>
+    <div id="viewport" class="ui-main">
+      <div class="ui-nav">
+        <div class="ui-panel">
+          <div class="ui-panel-header">导航</div>
+          <div class="ui-panel-body">
+            <ul class="ui-body-nav">
+              <li class="ui-active"><a href="#">图片展示一</a></li>
+              <li><a href="#">图片展示二</a></li>
+              <li><a href="#">图片展示三</a></li>
+              <li><a href="#">图片展示四</a></li>
+              <li><a href="#">图片展示五</a></li>
+              <li><a href="#">图片展示六</a></li>
+              <li><a href="#">图片展示七</a></li>
+              <li><a href="#">图片展示八</a></li>
+              <li><a href="#">图片展示九</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="ui-body">
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示一</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-1.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-2.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-3.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-4.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示二</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-5.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-6.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-1.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-2.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示三</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-3.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-4.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-5.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-6.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示四</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-1.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-2.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-3.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-4.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示五</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-5.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-6.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-1.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-2.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示六</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-3.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-4.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-5.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-6.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示七</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-1.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-2.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-3.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-4.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示八</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-5.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-6.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-1.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-2.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-panel">
+          <div class="ui-panel-header">图片展示九</div>
+          <div class="ui-panel-body">
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-3.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-4.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-5.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+            <div class="ui-thumbnail">
+              <img src="/examples/assets/images/image-6.jpg"/>
+              <div class="ui-thumbnail-caption">
+                <h3>百年孤独选</h3>
+                <p>无论走到哪里，都应该记住，过去都是假的，回忆是一条没有尽头的路。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <script type="text/javascript">
-      seajs.use('/examples/assets/script/viewport', function (Viewport){
-        var viewport = new Viewport(document.getElementById('viewport'), {
-          target: '>div',
-          threshold: -100,
-          thresholdBorderReaching: 100
-        });
-
-        viewport.on('viewchange', function (e){
-          var text = [];
-
-          for (var i = 0, len = e.target.length; i < len; i++) {
-            text.push(e.target[i].innerText);
-          }
-
-          console.log('emitter: %s', e.emitter);
-          console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
-          console.log('target: %o --- text: %s', e.target, '[' + text.join(', ') + ']');
-          console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.top, e.top ? ' ' : '');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('%o                                                 %o', e.left, e.right);
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.bottom, e.bottom ? ' ' : '');
-        });
-      });
-    </script>
   </body>
 </html>

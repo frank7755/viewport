@@ -269,7 +269,7 @@ gulp.task('runtime-product', ['clean'], function (){
 // develop task
 gulp.task('default', ['runtime'], function (){
   // complete callback
-  var complete = pedding(1, function (){
+  var complete = pedding(2, function (){
     var now = new Date();
 
     console.log(
@@ -293,11 +293,18 @@ gulp.task('default', ['runtime'], function (){
     }))
     .pipe(gulp.dest('examples/assets/script'))
     .on('finish', complete);
+
+  // css file
+  gulp.src('examples/assets/css/**/*', { base: 'examples/assets/css', nodir: true })
+    .pipe(plumber())
+    .pipe(css({ onpath: onpath }))
+    .pipe(gulp.dest('examples/assets/style'))
+    .on('finish', complete);
 });
 
 // develop watch task
 gulp.task('watch', ['default'], function (){
-  var base = join(process.cwd(), 'examples');
+  var base = join(process.cwd(), 'examples/assets');
 
   // debug watcher
   function debugWatcher(event, path){
@@ -307,7 +314,7 @@ gulp.task('watch', ['default'], function (){
       '  %s %s: %s %s',
       colors.green.bold('gulp-watch'),
       event,
-      colors.magenta(join('examples', path).replace(/\\/g, '/')),
+      colors.magenta(join('examples/assets', path).replace(/\\/g, '/')),
       colors.green('+' + (now - bookmark) + 'ms')
     );
   }
@@ -326,21 +333,21 @@ gulp.task('watch', ['default'], function (){
 
   // watch js file
   watch([
-    'examples/assets/js/**/*',
+    'examples/assets/js',
     '!examples/assets/js/sea.js'
   ], function (event, path){
-    var rpath = relative(join(base, ''), path);
+    var rpath = relative(join(base, 'js'), path);
 
     bookmark = Date.now();
     event = event.toLowerCase();
 
-    debugWatcher(event, join('', rpath));
+    debugWatcher(event, join('js', rpath));
 
     if (event === 'unlink' || event === 'unlinkdir') {
-      rimraf.sync(resolve('examples', rpath));
+      rimraf.sync(resolve('examples/assets/script', rpath));
       complete();
     } else {
-      gulp.src(path, { base: 'src' })
+      gulp.src(path, { base: 'examples/assets/js' })
         .pipe(plumber())
         .pipe(cmd({
           alias: getAlias(),
@@ -348,7 +355,32 @@ gulp.task('watch', ['default'], function (){
           cache: false,
           css: { onpath: onpath }
         }))
-        .pipe(gulp.dest('examples'))
+        .pipe(gulp.dest('examples/assets/script'))
+        .on('finish', complete);
+    }
+  });
+
+  // watch css file
+  watch('examples/assets/css', function (event, path){
+    var rpath = relative(join(base, 'css'), path);
+
+    bookmark = Date.now();
+    event = event.toLowerCase();
+
+    debugWatcher(event, join('css', rpath));
+
+    if (event === 'unlink' || event === 'unlinkdir') {
+      rimraf.sync(resolve('examples/assets/style', rpath));
+      complete();
+    } else {
+      gulp.src(path, { base: 'examples/assets/css' })
+        .pipe(plumber())
+        .pipe(css({
+          onpath: function (path){
+            return path.replace('examples/assets/css/', 'examples/assets/style/');
+          }
+        }))
+        .pipe(gulp.dest('examples/assets/style'))
         .on('finish', complete);
     }
   });
@@ -357,7 +389,7 @@ gulp.task('watch', ['default'], function (){
 // product task
 gulp.task('product', ['runtime-product'], function (){
   // complete callback
-  var complete = pedding(1, function (){
+  var complete = pedding(2, function (){
     var now = new Date();
 
     console.log(
@@ -372,7 +404,7 @@ gulp.task('product', ['runtime-product'], function (){
   gulp.src([
     'examples/assets/js/**/*',
     '!examples/assets/js/sea.js'
-  ], { base: 'src', nodir: true })
+  ], { base: 'examples/assets/js', nodir: true })
     .pipe(plumber())
     .pipe(cmd({
       alias: getAlias(),
@@ -385,6 +417,17 @@ gulp.task('product', ['runtime-product'], function (){
         onpath: onpath
       }
     }))
-    .pipe(gulp.dest('examples'))
+    .pipe(gulp.dest('examples/assets/script'))
+    .on('finish', complete);
+
+  // css file
+  gulp.src('examples/assets/css/**/*', { base: 'examples/assets/css', nodir: true })
+    .pipe(plumber())
+    .pipe(css({
+      include: true,
+      onpath: onpath,
+      plugins: CSSPLUGINS
+    }))
+    .pipe(gulp.dest('examples/assets/style'))
     .on('finish', complete);
 });
