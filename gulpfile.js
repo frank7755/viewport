@@ -194,9 +194,9 @@ function onpath(path, property, file, wwwroot){
     path = path.replace(/\\+/g, '/');
   }
 
-  path = path.replace('/examples/assets/css/', './assets/style/');
-  path = path.replace('/examples/assets/js/', './assets/script/');
-  path = path.replace('/examples/assets/images/', './assets/images/');
+  path = path.replace('/assets/css/', '/assets/style/');
+  path = path.replace('/assets/js/', '/assets/script/');
+  path = path.replace('/assets/images/', '/assets/images/');
 
   return path;
 }
@@ -298,7 +298,11 @@ gulp.task('default', ['runtime'], function (){
   // css file
   gulp.src('examples/assets/css/**/*', { base: 'examples/assets/css', nodir: true })
     .pipe(plumber())
-    .pipe(css({ onpath: onpath }))
+    .pipe(css({
+      onpath: function (path){
+        return path.replace('/assets/css/', '/assets/style/');
+      }
+    }))
     .pipe(gulp.dest('examples/assets/style'))
     .on('finish', complete);
 });
@@ -378,7 +382,7 @@ gulp.task('watch', ['default'], function (){
         .pipe(plumber())
         .pipe(css({
           onpath: function (path){
-            return path.replace('/examples/assets/css/', './assets/style/');
+            return path.replace('/assets/css/', '/assets/style/');
           }
         }))
         .pipe(gulp.dest('examples/assets/style'))
