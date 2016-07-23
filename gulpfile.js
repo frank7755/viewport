@@ -430,7 +430,9 @@ gulp.task('product', ['runtime-product'], function (){
     .pipe(plumber())
     .pipe(css({
       include: true,
-      onpath: onpath,
+      onpath: function (path){
+        return path.replace('/assets/css/', '/assets/style/');
+      },
       plugins: CSSPLUGINS
     }))
     .pipe(gulp.dest('examples/assets/style'))
