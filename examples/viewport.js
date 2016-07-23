@@ -298,10 +298,10 @@ Viewport.prototype = {
 
         // adjust position
         if (
-          !(top - threshold[0] >= height
-          || right + threshold[1] <= 0
-          || bottom + threshold[2] <= 0
-          || left - threshold[3] >= width)
+          !(top - threshold[2] >= height
+          || right + threshold[3] <= 0
+          || bottom + threshold[0] <= 0
+          || left - threshold[1] >= width)
         ) {
           result.push(element);
         }
