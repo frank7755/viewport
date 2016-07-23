@@ -173,7 +173,7 @@ img.ui-thumbnail {
   background-color: #eee;
 }
 .ui-body .ui-panel-body .ui-thumbnail .ui-loading {
-  background: #eee url(../images/loading.gif) no-repeat center;
+  background: #eee url(./assets/images/loading.gif) no-repeat center;
 }
 .ui-nav-fixed {
   position: fixed;
