@@ -115,111 +115,19 @@ function Viewport(viewport, options){
 
 /**
  * @type {{
- *   __init: Viewport.__init,
- *   __changeViewport: Viewport.__changeViewport,
  *   __initOptions: Viewport.__initOptions,
  *   __findTarget: Viewport.__findTarget,
  *   __filterTargetInViewport: Viewport.__filterTargetInViewport,
- *   on: Viewport.on, off: Viewport.off,
+ *   __changeViewport: Viewport.__changeViewport,
+ *   __init: Viewport.__init,
+ *   on: Viewport.on,
+ *   off: Viewport.off,
  *   emit: Viewport.emit,
  *   refresh: Viewport.refresh,
  *   destroy: Viewport.destroy
  * }}
  */
 Viewport.prototype = {
-  __init: function (){
-    // delay trigger the scroll and resize event.
-    var context = this;
-    var id = context.id;
-    var options = context.options;
-    var viewport = context.viewport;
-    var scrollTop = viewport.scrollTop();
-    var scrollLeft = viewport.scrollLeft();
-    var namespace = '.viewport-' + id;
-
-    // change viewport
-    function changeViewport(e){
-      // trigger the viewchange event internally.
-      var event = context.__changeViewport(e.type, scrollTop, scrollLeft);
-
-      // cahce scroll position
-      if (event) {
-        scrollTop = event.scrollTop;
-        scrollLeft = event.scrollLeft;
-      }
-    }
-
-    // event handler
-    var handler;
-
-    // delay
-    if (options.delay) {
-      var timer;
-
-      // handler
-      handler = function (e){
-        // clear timer
-        clearTimeout(timer);
-
-        // delay execute
-        timer = setTimeout(function (){
-          changeViewport(e);
-        }, options.delay);
-      };
-    } else {
-      handler = changeViewport;
-    }
-
-    // bind event
-    viewport.on('scroll' + namespace + ' resize' + namespace, handler);
-
-    // init event
-    context.__changeViewport('init', scrollTop, scrollLeft);
-  },
-  __changeViewport: function (emitter, vertical, horizontal){
-    var context = this;
-    var options = context.options;
-    var viewport = context.viewport;
-    var __viewport = context.__viewport;
-    var thresholdBorderReaching = options.thresholdBorderReaching;
-
-    if (viewport[0] !== window && !viewport.is(':visible')) return;
-
-    var width = viewport.innerWidth();
-    var height = viewport.innerHeight();
-    var scrollWidth = __viewport[0].scrollWidth;
-    var scrollHeight = __viewport[0].scrollHeight;
-
-    // event
-    var event = {};
-
-    // scrollbar position
-    event.scrollTop = viewport.scrollTop();
-    event.scrollLeft = viewport.scrollLeft();
-    event.offsetY = event.scrollTop - vertical;
-    event.offsetX = event.scrollLeft - horizontal;
-
-    // emitter
-    event.emitter = emitter;
-
-    // event type
-    event.type = 'viewchange';
-
-    // target
-    event.target = context.__filterTargetInViewport(width, height);
-
-    // calculate viewport border reaching detail infos
-    event.top = event.scrollTop - thresholdBorderReaching[0] <= 0;
-    event.right = width + event.scrollLeft + thresholdBorderReaching[1] >= scrollWidth;
-    event.bottom = height + event.scrollTop + thresholdBorderReaching[2] >= scrollHeight;
-    event.left = event.scrollLeft - thresholdBorderReaching[3] <= 0;
-
-    // emit view change event
-    context.emit(event.type, event);
-
-    // return scrollbar position
-    return event;
-  },
   __initOptions: function (options){
     options = $.extend({
       delay: 150,
@@ -309,6 +217,99 @@ Viewport.prototype = {
     });
 
     return result;
+  },
+  __changeViewport: function (emitter, vertical, horizontal){
+    var context = this;
+    var options = context.options;
+    var viewport = context.viewport;
+    var __viewport = context.__viewport;
+    var thresholdBorderReaching = options.thresholdBorderReaching;
+
+    if (viewport[0] !== window && !viewport.is(':visible')) return;
+
+    var width = viewport.innerWidth();
+    var height = viewport.innerHeight();
+    var scrollWidth = __viewport[0].scrollWidth;
+    var scrollHeight = __viewport[0].scrollHeight;
+
+    // event
+    var event = {};
+
+    // scrollbar position
+    event.scrollTop = viewport.scrollTop();
+    event.scrollLeft = viewport.scrollLeft();
+    event.offsetY = event.scrollTop - vertical;
+    event.offsetX = event.scrollLeft - horizontal;
+
+    // emitter
+    event.emitter = emitter;
+
+    // event type
+    event.type = 'viewchange';
+
+    // target
+    event.target = context.__filterTargetInViewport(width, height);
+
+    // calculate viewport border reaching detail infos
+    event.top = event.scrollTop - thresholdBorderReaching[0] <= 0;
+    event.right = width + event.scrollLeft + thresholdBorderReaching[1] >= scrollWidth;
+    event.bottom = height + event.scrollTop + thresholdBorderReaching[2] >= scrollHeight;
+    event.left = event.scrollLeft - thresholdBorderReaching[3] <= 0;
+
+    // emit view change event
+    context.emit(event.type, event);
+
+    // return scrollbar position
+    return event;
+  },
+  __init: function (){
+    // delay trigger the scroll and resize event.
+    var context = this;
+    var id = context.id;
+    var options = context.options;
+    var viewport = context.viewport;
+    var scrollTop = viewport.scrollTop();
+    var scrollLeft = viewport.scrollLeft();
+    var namespace = '.viewport-' + id;
+
+    // change viewport
+    function changeViewport(e){
+      // trigger the viewchange event internally.
+      var event = context.__changeViewport(e.type, scrollTop, scrollLeft);
+
+      // cahce scroll position
+      if (event) {
+        scrollTop = event.scrollTop;
+        scrollLeft = event.scrollLeft;
+      }
+    }
+
+    // event handler
+    var handler;
+
+    // delay
+    if (options.delay) {
+      var timer;
+
+      // handler
+      handler = function (e){
+        // clear timer
+        clearTimeout(timer);
+
+        // delay execute
+        timer = setTimeout(function (){
+          changeViewport(e);
+        }, options.delay);
+      };
+    } else {
+      handler = changeViewport;
+    }
+
+    // bind event
+    viewport.on('scroll' + namespace + ' resize' + namespace, handler);
+
+    // init event
+    context.__changeViewport('init', scrollTop, scrollLeft);
   },
   on: function (event, handler){
     var context = this;
