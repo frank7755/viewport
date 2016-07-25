@@ -2,6 +2,8 @@
  * Created by nuintun on 2016/7/23.
  */
 
+'use strict';
+
 var $ = require('./jquery');
 var Viewport = require('./viewport');
 
