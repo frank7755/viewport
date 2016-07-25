@@ -50,8 +50,8 @@ function compress(){
         var result = uglify.minify(vinyl.contents.toString(), {
           fromString: true,
           compress: { screw_ie8: false },
-          mangle: { screw_ie8: screw_ie8 },
-          output: { screw_ie8: screw_ie8 }
+          mangle: { screw_ie8: false },
+          output: { screw_ie8: false }
         });
 
         vinyl.contents = new Buffer(result.code);
@@ -102,8 +102,8 @@ var CMDPLUGINS = {
           var result = uglify.minify(vinyl.contents.toString(), {
             fromString: true,
             compress: { screw_ie8: false },
-            mangle: { screw_ie8: screw_ie8 },
-            output: { screw_ie8: screw_ie8 }
+            mangle: { screw_ie8: false },
+            output: { screw_ie8: false }
           });
 
           vinyl.contents = new Buffer(result.code);
@@ -127,8 +127,8 @@ var CMDPLUGINS = {
         var result = uglify.minify(vinyl.contents.toString(), {
           fromString: true,
           compress: { screw_ie8: false },
-          mangle: { screw_ie8: screw_ie8 },
-          output: { screw_ie8: screw_ie8 }
+          mangle: { screw_ie8: false },
+          output: { screw_ie8: false }
         });
 
         vinyl.contents = new Buffer(result.code);
