@@ -246,6 +246,9 @@ Viewport.prototype = {
     // event type
     event.type = 'viewchange';
 
+    // viewport size infos
+    event.viewport = [width, height, scrollWidth, scrollHeight];
+
     // target
     event.target = context.__filterTargetInViewport(width, height);
 

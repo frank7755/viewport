@@ -35,9 +35,17 @@ $(function (){
   viewport = new Viewport(window, { target: '.ui-body img[data-src]' });
 
   viewport.on('viewchange', function (e){
+    var infoText;
+
     for (var key in info) {
       if (info.hasOwnProperty(key)) {
-        info[key].text(e[key]);
+        infoText = e[key];
+
+        if (key === 'viewport') {
+          infoText = infoText.join(', ');
+        }
+
+        info[key].text(infoText);
       }
     }
 
