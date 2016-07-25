@@ -85,7 +85,7 @@ function patchThreshold(threshold, absolute){
  */
 function patchViewport(viewport){
   return viewport === window
-    ? (document.compatMode == 'CSS1Compat' ? document.documentElement : document.body)
+    ? (document.compatMode === 'CSS1Compat' ? document.documentElement : document.body)
     : viewport;
 }
 
