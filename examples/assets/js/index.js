@@ -10,22 +10,12 @@ $(function (){
   var nav = $('#nav');
   var navItems = nav.find('.ui-body-nav li');
   var navPlaceholder = nav.clone().removeAttr('id').empty();
-
-  nav.find('span[data-info]').each(function (){
-    var element = $(this);
-
-    info[element.attr('data-info')] = element;
+  var viewport = new Viewport(window, {
+    target: '.ui-body .ui-panel[data-ref]',
+    threshold: [-164, 0, 0], delay: 1
   });
 
-  var viewport = new Viewport(window, { target: '.ui-body .ui-panel[data-ref]', threshold: [-164, 0, 0], delay: 1 });
-
   viewport.on('viewchange', function (e){
-    for (var key in info) {
-      if (info.hasOwnProperty(key)) {
-        info[key].text(e[key]);
-      }
-    }
-
     var panel = e.target.shift();
 
     if (panel) {
@@ -34,9 +24,21 @@ $(function (){
     }
   });
 
+  nav.find('span[data-info]').each(function (){
+    var element = $(this);
+
+    info[element.attr('data-info')] = element;
+  });
+
   viewport = new Viewport(window, { target: '.ui-body img[data-src]' });
 
   viewport.on('viewchange', function (e){
+    for (var key in info) {
+      if (info.hasOwnProperty(key)) {
+        info[key].text(e[key]);
+      }
+    }
+
     $.each(e.target, function (i, element){
       element = $(element);
 
