@@ -247,7 +247,7 @@ Viewport.prototype = {
     // event type
     event.type = 'viewchange';
 
-    // viewport infos
+    // viewport size infos
     event.viewport = [width, height, scrollWidth, scrollHeight];
 
     // target
