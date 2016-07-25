@@ -17,7 +17,7 @@ $(function (){
     info[element.attr('data-info')] = element;
   });
 
-  var viewport = new Viewport(window, { target: '.ui-body .ui-panel[data-ref]', threshold: [-164, 0, 0], delay: 0 });
+  var viewport = new Viewport(window, { target: '.ui-body .ui-panel[data-ref]', threshold: [-164, 0, 0], delay: 1 });
 
   viewport.on('viewchange', function (e){
     for (var key in info) {
