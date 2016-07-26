@@ -21,21 +21,21 @@ $(function (){
   });
 
   viewport.on('viewchange', function (e){
-    $.each(e.target, function (i, element){
-      element = $(element);
+    $.each(e.target, function (i, image){
+      image = $(image);
 
-      var src = element.attr('data-src');
+      var src = image.attr('data-src');
 
       if (!src) return;
 
-      element.removeAttr('data-src');
-      element.addClass('ui-loading');
+      image.removeAttr('data-src');
+      image.addClass('ui-loading');
 
-      $('<img />').on('load error', { image: element, src: src }, function (event){
+      $('<img />').on('load error', { image: image, src: src }, function (event){
         var image = event.data.image;
         var src = event.data.src;
 
-        element.removeClass('ui-loading');
+        image.removeClass('ui-loading');
 
         image
           .hide()
