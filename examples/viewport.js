@@ -168,8 +168,8 @@ Viewport.prototype = {
     var context = this;
     var target = context.target;
 
-    // target is null
-    if (target === null) return result;
+    // target is null or not a jquery object
+    if (!target || !(target instanceof $)) return result;
 
     var options = context.options;
     var threshold = options.threshold;
