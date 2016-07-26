@@ -61,7 +61,7 @@ $(function (){
 > The value will parsed like css margin and padding
 
 - *skipHidden* - ```Boolean```
-> The value set is the hidden element of the target appear into the viewchange event
+> Skip hidden element in target
 
 - *delay* - ```Number```
 > The delay of viewchange event emit frequency
