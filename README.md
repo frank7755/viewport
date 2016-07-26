@@ -35,10 +35,9 @@ $(function (){
         var image = event.data.image;
         var src = event.data.src;
 
-        image.removeClass('ui-loading');
-
         image
           .hide()
+          .removeClass('ui-loading')
           .attr('src', src)
           .fadeIn('fast');
       }).attr('src', src);
