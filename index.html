@@ -46,7 +46,7 @@
       <div>15</div>
     </div>
     <script type="text/javascript">
-      seajs.use('/examples/viewport', function (Viewport){
+      seajs.use('./examples/viewport', function (Viewport){
         var viewport = new Viewport(document.getElementById('viewport'), {
           target: '>div',
           threshold: -100,
@@ -63,19 +63,17 @@
           console.log('emitter: %s', e.emitter);
           console.log('x: %s --- y: %s', e.offsetX, e.offsetY);
           console.log('target: %o --- text: %s', e.target, '[' + text.join(', ') + ']');
-          console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.top, e.top ? ' ' : '');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('%o                                                 %o', e.left, e.right);
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('|                                                       |');
-          console.log('+ —— —— —— —— —— —— —— —— %o%s —— —— —— —— —— —— —— —— +', e.bottom, e.bottom ? ' ' : '');
+          console.log('┌ ─ ─ ─ ─ ─ ─ ─ ─ %o%s ─ ─ ─ ─ ─ ─ ─ ─ ┐', e.top, e.top ? ' ' : '');
+          console.log('│                                       │');
+          console.log('│                                       │');
+          console.log('│                                       │');
+          console.log('│                                       │');
+          console.log('%o                                 %o', e.left, e.right);
+          console.log('│                                       │');
+          console.log('│                                       │');
+          console.log('│                                       │');
+          console.log('│                                       │');
+          console.log('└ ─ ─ ─ ─ ─ ─ ─ ─ %o%s ─ ─ ─ ─ ─ ─ ─ ─ ┘', e.bottom, e.bottom ? ' ' : '');
         });
       });
     </script>
