@@ -7,6 +7,7 @@ viewport
 ```js
 'use strict';
 
+// import
 var $ = require('jquery');
 var Viewport = require('./viewport');
 
