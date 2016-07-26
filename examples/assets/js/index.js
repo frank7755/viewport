@@ -59,7 +59,7 @@ $(function (){
       element.removeAttr('data-src');
       element.addClass('ui-loading');
 
-      $('<img />').bind('load error', { image: element, src: src }, function (event){
+      $('<img />').on('load error', { image: element, src: src }, function (event){
         var image = event.data.image;
         var src = event.data.src;
 
