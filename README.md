@@ -3,7 +3,7 @@ viewport
 
 >A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
 
-###Introduction
+##Introduction
 ```js
 'use strict';
 
@@ -46,25 +46,86 @@ $(function (){
 });
 ```
 
-### API
+## API
+### Viewport(viewport[, options])
+###### viewport - ```HTMLElement|window```
+> The viewport element
+
 ###### options
-- *mails*
-> The email domain list
+- *target* - ```String|jQueryElement|HTMLElement```
+> The elements want to be watched in viewport
 
-- *width*
-> The pupup tip's width, if set ```input``` the tip's width will equal input width else the width will equal set or auto
+- *threshold* - ```Number|Array```
+> With this value you can increase or decrease the threshold range viewport detection
+> The value will parsed like css margin and padding
 
-- *onselected*
-> The callback on selected a email
+- *skipHidden* - ```Boolean```
+> The value set is the hidden element of the target appear into the viewchange event
 
-- *offsetTop*
-> The offset top relative default position
+- *delay* - ```Number```
+> The delay of viewchange event emit frequency
 
-- *offsetLeft*
-> The offset left relative default position
+- *thresholdBorderReaching*
+> With this value you can increase or decrease the threshold range viewport border reaching detection
+> The value will parsed like css margin and padding
 
-- *zIndex*
-> z-index of popup tip
+### Method
+###### on
+> Add a event listener
 
-###Demo
+###### off
+> Remove a event listener
+
+###### emit(event[, data])
+> Trigger a event
+
+###### refresh([options])
+> Refresh viewport
+
+###### destroy()
+> Destroy viewport
+
+
+### Event
+###### viewchange
+> When viewport on scroll and resize, it will emit viewchange event
+
+### Event Data
+- *type*
+> Event type, always ```viewchange```
+
+- *emitter*
+> The emitter of triggered viewchange, maybe ```init|refresh|scroll|resize```
+
+- *target*
+> The element appear into viewport now
+
+- *offsetX*
+> The scrollbar offset x
+
+- *offsetY*
+> The scrollbar offset y
+
+- *scrollTop*
+> The scrollbar scroll top
+
+- *scrollLeft*
+> The scrollbar scroll left
+
+- *viewport*
+> The viewport size [width, height, scrollWidth, scrollHeight]
+
+- *top*
+> Is scrollbar reached viewport top
+
+- *right*
+> Is scrollbar reached viewport right
+
+- *bottom*
+> Is scrollbar reached viewport bottom
+
+- *left*
+> Is scrollbar reached viewport left
+
+##Demo
 #### [Demo](https://nuintun.github.io/viewport/examples/index.html)

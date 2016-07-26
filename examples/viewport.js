@@ -154,8 +154,8 @@ Viewport.prototype = {
     } else if (is.element(target) && $.contains(__viewport[0], target)) {
       target = $(target);
     } else if (target instanceof $) {
-      target = $.grep(target, function (element){
-        return $.contains(__viewport[0], element);
+      target = target.filter(function (){
+        return $.contains(__viewport[0], this);
       });
     } else {
       target = null;
