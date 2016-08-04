@@ -34,6 +34,252 @@
 <blockquote>
 <p>A library for get a callback when any element becomes visible in a viewport (window or custom viewport)</p>
 </blockquote>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// import</span>
+<span class="pl-k">var</span> $ <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jquery<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> Viewport <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./viewport<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// image lazy load</span>
+<span class="pl-en">$</span>(<span class="pl-k">function</span> (){
+  <span class="pl-k">var</span> viewport <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Viewport</span>(<span class="pl-c1">window</span>, {
+    delay<span class="pl-k">:</span> <span class="pl-c1">150</span>,
+    threshold<span class="pl-k">:</span> <span class="pl-c1">0</span>,
+    skipHidden<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    thresholdBorderReaching<span class="pl-k">:</span> <span class="pl-c1">0</span>,
+    target<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>img[data-src]<span class="pl-pds">'</span></span>
+  });
+
+  <span class="pl-smi">viewport</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>viewchange<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">e</span>){
+    <span class="pl-smi">$</span>.<span class="pl-en">each</span>(<span class="pl-smi">e</span>.<span class="pl-c1">target</span>, <span class="pl-k">function</span> (<span class="pl-smi">i</span>, <span class="pl-smi">image</span>){
+      image <span class="pl-k">=</span> <span class="pl-en">$</span>(image);
+
+      <span class="pl-k">var</span> src <span class="pl-k">=</span> <span class="pl-smi">image</span>.<span class="pl-en">attr</span>(<span class="pl-s"><span class="pl-pds">'</span>data-src<span class="pl-pds">'</span></span>);
+
+      <span class="pl-k">if</span> (<span class="pl-k">!</span>src) <span class="pl-k">return</span>;
+
+      <span class="pl-smi">image</span>.<span class="pl-en">removeAttr</span>(<span class="pl-s"><span class="pl-pds">'</span>data-src<span class="pl-pds">'</span></span>);
+      <span class="pl-smi">image</span>.<span class="pl-en">addClass</span>(<span class="pl-s"><span class="pl-pds">'</span>ui-loading<span class="pl-pds">'</span></span>);
+
+      <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;img /&gt;<span class="pl-pds">'</span></span>).<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>load error<span class="pl-pds">'</span></span>, { image<span class="pl-k">:</span> image, src<span class="pl-k">:</span> src }, <span class="pl-k">function</span> (<span class="pl-c1">event</span>){
+        <span class="pl-k">var</span> image <span class="pl-k">=</span> <span class="pl-c1">event</span>.<span class="pl-c1">data</span>.<span class="pl-smi">image</span>;
+        <span class="pl-k">var</span> src <span class="pl-k">=</span> <span class="pl-c1">event</span>.<span class="pl-c1">data</span>.<span class="pl-smi">src</span>;
+
+        image
+          .<span class="pl-en">hide</span>()
+          .<span class="pl-en">removeClass</span>(<span class="pl-s"><span class="pl-pds">'</span>ui-loading<span class="pl-pds">'</span></span>)
+          .<span class="pl-en">attr</span>(<span class="pl-s"><span class="pl-pds">'</span>src<span class="pl-pds">'</span></span>, src)
+          .<span class="pl-en">fadeIn</span>(<span class="pl-s"><span class="pl-pds">'</span>fast<span class="pl-pds">'</span></span>);
+      }).<span class="pl-en">attr</span>(<span class="pl-s"><span class="pl-pds">'</span>src<span class="pl-pds">'</span></span>, src);
+    });
+  });
+});</pre></div>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h2>
+
+<h3>
+<a id="viewportviewport-options" class="anchor" href="#viewportviewport-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Viewport(viewport[, options])</h3>
+
+<h6>
+<a id="viewport---htmlelementwindow" class="anchor" href="#viewport---htmlelementwindow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>viewport - <code>HTMLElement|window</code>
+</h6>
+
+<blockquote>
+<p>The viewport element</p>
+</blockquote>
+
+<h6>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>options</h6>
+
+<ul>
+<li>
+<p><em>target</em> - <code>String|jQueryElement|HTMLElement</code></p>
+
+<blockquote>
+<p>The elements want to be watched in viewport</p>
+</blockquote>
+</li>
+<li>
+<p><em>threshold</em> - <code>Number|Array</code></p>
+
+<blockquote>
+<p>With this value you can increase or decrease the threshold range viewport detection
+The value will parsed like css margin and padding</p>
+</blockquote>
+</li>
+<li>
+<p><em>skipHidden</em> - <code>Boolean</code></p>
+
+<blockquote>
+<p>Skip hidden element in target</p>
+</blockquote>
+</li>
+<li>
+<p><em>delay</em> - <code>Number</code></p>
+
+<blockquote>
+<p>The delay of viewchange event emit frequency</p>
+</blockquote>
+</li>
+<li>
+<p><em>thresholdBorderReaching</em></p>
+
+<blockquote>
+<p>With this value you can increase or decrease the threshold range viewport border reaching detection
+The value will parsed like css margin and padding</p>
+</blockquote>
+</li>
+</ul>
+
+<h3>
+<a id="method" class="anchor" href="#method" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Method</h3>
+
+<h6>
+<a id="on" class="anchor" href="#on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>on</h6>
+
+<blockquote>
+<p>Add a event listener</p>
+</blockquote>
+
+<h6>
+<a id="off" class="anchor" href="#off" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>off</h6>
+
+<blockquote>
+<p>Remove a event listener</p>
+</blockquote>
+
+<h6>
+<a id="emitevent-data" class="anchor" href="#emitevent-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>emit(event[, data])</h6>
+
+<blockquote>
+<p>Trigger a event</p>
+</blockquote>
+
+<h6>
+<a id="refreshoptions" class="anchor" href="#refreshoptions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>refresh([options])</h6>
+
+<blockquote>
+<p>Refresh viewport</p>
+</blockquote>
+
+<h6>
+<a id="destroy" class="anchor" href="#destroy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>destroy()</h6>
+
+<blockquote>
+<p>Destroy viewport</p>
+</blockquote>
+
+<h3>
+<a id="event" class="anchor" href="#event" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Event</h3>
+
+<h6>
+<a id="viewchange" class="anchor" href="#viewchange" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>viewchange</h6>
+
+<blockquote>
+<p>When viewport on scroll and resize, it will emit viewchange event</p>
+</blockquote>
+
+<h3>
+<a id="event-data" class="anchor" href="#event-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Event Data</h3>
+
+<ul>
+<li>
+<p><em>type</em></p>
+
+<blockquote>
+<p>Event type, always <code>viewchange</code></p>
+</blockquote>
+</li>
+<li>
+<p><em>emitter</em></p>
+
+<blockquote>
+<p>The emitter of triggered viewchange, maybe <code>init|refresh|scroll|resize</code></p>
+</blockquote>
+</li>
+<li>
+<p><em>target</em></p>
+
+<blockquote>
+<p>The element appear into viewport now</p>
+</blockquote>
+</li>
+<li>
+<p><em>offsetX</em></p>
+
+<blockquote>
+<p>The scrollbar offset x</p>
+</blockquote>
+</li>
+<li>
+<p><em>offsetY</em></p>
+
+<blockquote>
+<p>The scrollbar offset y</p>
+</blockquote>
+</li>
+<li>
+<p><em>scrollTop</em></p>
+
+<blockquote>
+<p>The scrollbar scroll top</p>
+</blockquote>
+</li>
+<li>
+<p><em>scrollLeft</em></p>
+
+<blockquote>
+<p>The scrollbar scroll left</p>
+</blockquote>
+</li>
+<li>
+<p><em>viewport</em></p>
+
+<blockquote>
+<p>The viewport size [width, height, scrollWidth, scrollHeight]</p>
+</blockquote>
+</li>
+<li>
+<p><em>top</em></p>
+
+<blockquote>
+<p>Is scrollbar reached viewport top</p>
+</blockquote>
+</li>
+<li>
+<p><em>right</em></p>
+
+<blockquote>
+<p>Is scrollbar reached viewport right</p>
+</blockquote>
+</li>
+<li>
+<p><em>bottom</em></p>
+
+<blockquote>
+<p>Is scrollbar reached viewport bottom</p>
+</blockquote>
+</li>
+<li>
+<p><em>left</em></p>
+
+<blockquote>
+<p>Is scrollbar reached viewport left</p>
+</blockquote>
+</li>
+</ul>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo</h2>
+
+<h4>
+<a id="viewport-scroll-spy-and-viewport-image-lazyload" class="anchor" href="#viewport-scroll-spy-and-viewport-image-lazyload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://nuintun.github.io/viewport/examples/index.html">Viewport scroll spy and viewport image lazyload</a>
+</h4>
         </section>
 
         <aside id="sidebar">
