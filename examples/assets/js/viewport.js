@@ -136,7 +136,11 @@ Viewport.prototype = {
       thresholdBorderReaching: 0
     }, options);
 
-    options.delay = Math.max(0, options.delay);
+    var delay = options.delay;
+
+    delay = (is.number(delay) && !is.nan(delay) && !is.infinite(delay)) ? Math.abs(delay) : 0;
+
+    options.delay = delay;
     options.threshold = patchThreshold(options.threshold);
     options.thresholdBorderReaching = patchThreshold(options.thresholdBorderReaching, true);
 
