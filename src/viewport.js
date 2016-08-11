@@ -30,7 +30,7 @@ var expando = 0;
  * @returns {*}
  */
 function patchThreshold(threshold, absolute){
-  if (is.number(threshold) && !is.nan(threshold) && !is.infinite(threshold)) {
+  if (is.number(threshold) && isFinite(threshold)) {
     if (absolute) {
       threshold = Math.abs(threshold);
     }
@@ -45,7 +45,7 @@ function patchThreshold(threshold, absolute){
       if (set.length < 4) {
         value = threshold[i];
 
-        if (is.number(value) && !is.nan(value) && !is.infinite(value)) {
+        if (is.number(value) && isFinite(value)) {
           set.push(absolute ? Math.abs(value) : value);
         }
       } else {
@@ -138,7 +138,7 @@ Viewport.prototype = {
 
     var delay = options.delay;
 
-    delay = (is.number(delay) && !is.nan(delay) && !is.infinite(delay)) ? Math.abs(delay) : 0;
+    delay = is.number(delay) && isFinite(delay) ? Math.abs(delay) : 150;
 
     options.delay = delay;
     options.threshold = patchThreshold(options.threshold);

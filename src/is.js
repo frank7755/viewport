@@ -70,22 +70,6 @@ var is = {
     return is.type(value, 'number');
   },
   /**
-   * nan
-   * @param value
-   * @returns {boolean}
-   */
-  nan: function (value){
-    return is.number(value) && value !== value;
-  },
-  /**
-   * infinite
-   * @param value
-   * @returns {boolean}
-   */
-  infinite: function (value){
-    return value === Infinity || value === -Infinity;
-  },
-  /**
    * element
    * @param value
    * @returns {boolean}
