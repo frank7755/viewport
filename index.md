@@ -3,16 +3,10 @@ viewport
 
 >A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
 
-##Introduction
+## Introduction
 ```js
-'use strict';
-
-// import
-var $ = require('jquery');
-var Viewport = require('./viewport');
-
 // image lazy load
-$(function (){
+$(function() {
   var viewport = new Viewport(window, {
     delay: 150,
     threshold: 0,
@@ -21,8 +15,8 @@ $(function (){
     target: 'img[data-src]'
   });
 
-  viewport.on('viewchange', function (e){
-    $.each(e.target, function (i, image){
+  viewport.on('viewchange', function(e) {
+    $.each(e.target, function(i, image) {
       image = $(image);
 
       var src = image.attr('data-src');
@@ -32,7 +26,7 @@ $(function (){
       image.removeAttr('data-src');
       image.addClass('ui-loading');
 
-      $('<img />').on('load error', { image: image, src: src }, function (event){
+      $('<img />').on('load error', { image: image, src: src }, function(event) {
         var image = event.data.image;
         var src = event.data.src;
 
@@ -66,9 +60,9 @@ $(function (){
 - *delay* - ```Number```
 > The delay of viewchange event emit frequency
 
-- *thresholdBorderReaching*
+- *thresholdBorderReaching* - ```Number```
 > With this value you can increase or decrease the threshold range viewport border reaching detection
-> The value will parsed like css margin and padding
+> The value will parsed like css margin and padding but only accept positive number
 
 ### Method
 ###### on
@@ -128,5 +122,5 @@ $(function (){
 - *left*
 > Is scrollbar reached viewport left
 
-##Demo
+## Demo
 #### [Viewport scroll spy and viewport image lazyload](https://nuintun.github.io/viewport/examples/index.html)
