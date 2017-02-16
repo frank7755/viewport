@@ -2,7 +2,7 @@ title: Viewport
 description: A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-architect
+theme: jekyll-theme-midnight
 
 gems:
   - jekyll-mentions
