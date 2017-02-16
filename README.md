@@ -3,7 +3,7 @@ viewport
 
 >A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
 
-##Introduction
+## Introduction
 ```js
 // image lazy load
 $(function() {
@@ -122,5 +122,5 @@ $(function() {
 - *left*
 > Is scrollbar reached viewport left
 
-##Demo
+## Demo
 #### [Viewport scroll spy and viewport image lazyload](https://nuintun.github.io/viewport/examples/index.html)
