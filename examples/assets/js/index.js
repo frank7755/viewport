@@ -4,20 +4,18 @@
 
 'use strict';
 
-var $ = require('./jquery');
-var Viewport = require('./viewport');
-
-$(function (){
+$(function() {
   var info = {};
   var nav = $('#nav');
   var navItems = nav.find('.ui-body-nav li');
   var navPlaceholder = nav.clone().removeAttr('id').empty();
   var viewport = new Viewport(window, {
     target: '.ui-body .ui-panel[data-ref]',
-    threshold: [-164, 0, 0], delay: 1
+    threshold: [-164, 0, 0],
+    delay: 1
   });
 
-  viewport.on('viewchange', function (e){
+  viewport.on('viewchange', function(e) {
     var panel = e.target.shift();
 
     if (panel) {
@@ -26,7 +24,7 @@ $(function (){
     }
   });
 
-  nav.find('span[data-info]').each(function (){
+  nav.find('span[data-info]').each(function() {
     var element = $(this);
 
     info[element.attr('data-info')] = element;
@@ -34,7 +32,7 @@ $(function (){
 
   viewport = new Viewport(window, { target: '.ui-body img[data-src]' });
 
-  viewport.on('viewchange', function (e){
+  viewport.on('viewchange', function(e) {
     var infoText;
 
     for (var key in info) {
@@ -49,7 +47,7 @@ $(function (){
       }
     }
 
-    $.each(e.target, function (i, image){
+    $.each(e.target, function(i, image) {
       image = $(image);
 
       var src = image.attr('data-src');
@@ -59,7 +57,7 @@ $(function (){
       image.removeAttr('data-src');
       image.addClass('ui-loading');
 
-      $('<img />').on('load error', { image: image, src: src }, function (event){
+      $('<img />').on('load error', { image: image, src: src }, function(event) {
         var image = event.data.image;
         var src = event.data.src;
 
@@ -74,7 +72,7 @@ $(function (){
 
   var win = $(window);
 
-  function navFixed(){
+  function navFixed() {
     var scrollTop = win.scrollTop();
     var fixed = nav.hasClass('ui-nav-fixed');
 
@@ -93,7 +91,7 @@ $(function (){
 
   var html = $('html, body');
 
-  nav.on('click', '.ui-body-nav li', function (e){
+  nav.on('click', '.ui-body-nav li', function(e) {
     e.preventDefault();
 
     var id = this.id;
