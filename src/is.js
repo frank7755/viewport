@@ -80,8 +80,19 @@ export function numberType(value) {
  * @returns {boolean}
  */
 export function elementType(value) {
-  return value !== undefined
-    && typeof HTMLElement !== 'undefined'
-    && value instanceof HTMLElement
-    && value.nodeType === 1;
+  // Is empty value
+  if (!value) return false;
+
+  // Tester element
+  var tester = document.createElement('div');
+
+  // If throw error is a element else not
+  try {
+    tester.appendChild(value);
+  } catch (error) {
+    return false;
+  }
+
+  // In <= IE8 HTMLElement.appendChild(document) don't throw error, so must be check nodeType
+  return value.nodeType === 1;
 }
