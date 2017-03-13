@@ -3,6 +3,8 @@ viewport
 
 >A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
 
+>[![Dependencies][david-image]][david-url]
+
 ## Introduction
 ```js
 // image lazy load
@@ -124,3 +126,6 @@ $(function() {
 
 ## Demo
 #### [Viewport scroll spy and viewport image lazyload](https://nuintun.github.io/viewport/examples/index.html)
+
+[david-image]: https://img.shields.io/david/nuintun/node-adodb.svg?style=flat-square
+[david-url]: https://david-dm.org/nuintun/node-adodb
