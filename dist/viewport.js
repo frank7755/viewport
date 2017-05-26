@@ -225,7 +225,7 @@
    *   _initOptions: Viewport._initOptions,
    *   _findTargets: Viewport._findTargets,
    *   _filterTargets: Viewport._filterTargets,
-   *   _changeViewport: Viewport._changeViewport,
+   *   _viewChange: Viewport._viewChange,
    *   _init: Viewport._init,
    *   on: Viewport.on,
    *   off: Viewport.off,
@@ -327,7 +327,7 @@
 
       return result;
     },
-    _changeViewport: function(emitter, vertical, horizontal) {
+    _viewChange: function(emitter, vertical, horizontal) {
       var context = this;
       var options = context.options;
       var viewport = context.viewport;
@@ -387,7 +387,7 @@
       // Change viewport
       function changeViewport(e) {
         // Trigger the viewchange event internally.
-        var event = context._changeViewport(e.type, scrollTop, scrollLeft);
+        var event = context._viewChange(e.type, scrollTop, scrollLeft);
 
         // Cahce scroll position
         if (event) {
@@ -421,7 +421,7 @@
       viewport.on('scroll' + namespace + ' resize' + namespace, handler);
 
       // Init event
-      context._changeViewport('init', scrollTop, scrollLeft);
+      context._viewChange('init', scrollTop, scrollLeft);
     },
     on: function(event, handler) {
       var context = this;
@@ -471,7 +471,7 @@
       }
 
       context._findTargets();
-      context._changeViewport('refresh', viewport.scrollTop(), viewport.scrollLeft());
+      context._viewChange('refresh', viewport.scrollTop(), viewport.scrollLeft());
 
       return context;
     },
