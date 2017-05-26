@@ -2,23 +2,23 @@
  * typeOf
  * Version: 0.0.1
  * Date: 2016/7/21
- * https://github.com/Nuintun/viewport
+ * https://github.com/nuintun/viewport
  *
  * Original Author: http://www.jsbug.com/lab/samples/viewport/
  *
  * This is licensed under the MIT License (MIT).
- * For details, see: https://github.com/Nuintun/viewport/blob/master/LICENSE
+ * For details, see: https://github.com/nuintun/viewport/blob/master/LICENSE
  */
 
 // Object to sting
 var toString = Object.prototype.toString;
 
 /**
- * The type of data
+ * typeOf
  *
- * @param value
- * @param type
- * @returns {boolean}
+ * @param {any} value
+ * @param {String} type
+ * @returns {Boolean}
  */
 export function typeOf(value, type) {
   // Format type
@@ -44,42 +44,42 @@ export function typeOf(value, type) {
 }
 
 /**
- * Type of string
+ * isString
  *
- * @param value
- * @returns {boolean}
+ * @param {any} value
+ * @returns {Boolean}
  */
-export function stringType(value) {
+export function isString(value) {
   return typeOf(value, 'string');
 }
 
 /**
- * Type of array
+ * isArray
  *
- * @param value
- * @returns {boolean}
+ * @param {any} value
+ * @returns {Boolean}
  */
-export function arrayType(value) {
+export var isArray = Array.isArray || function(value) {
   return typeOf(value, 'array');
 }
 
 /**
- * Type of number
+ * isNumber
  *
- * @param value
- * @returns {boolean}
+ * @param {any} value
+ * @returns {Boolean}
  */
-export function numberType(value) {
+export function isNumber(value) {
   return typeOf(value, 'number');
 }
 
 /**
- * Type of element
+ * isElement
  *
- * @param value
- * @returns {boolean}
+ * @param {any} value
+ * @returns {Boolean}
  */
-export function elementType(value) {
+export function isElement(value) {
   // Is empty value
   if (!value) return false;
 

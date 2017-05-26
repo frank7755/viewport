@@ -11,31 +11,33 @@
  */
 
 import $ from 'jquery';
-import * as Is from './is';
+import * as is from './is';
 
 // Expando ID
 var expando = 0;
 
 /**
- * Patch the threshold like css
+ * patchThreshold
+ *
+ * @description Patch the threshold like css
  * - 1            ==> top: 1, right: 1, bottom: 1, left: 1
  * - [1]          ==> top: 1, right: 1, bottom: 1, left: 1
  * - [1, 2]       ==> top: 1, right: 2, bottom: 1, left: 2
  * - [1, 2, 3]    ==> top: 1, right: 2, bottom: 3, left: 2
  * - [1, 2, 3, 4] ==> top: 1, right: 2, bottom: 3, left: 4
  *
- * @param threshold
- * @param absolute
- * @returns {*}
+ * @param {Number|Array} threshold
+ * @param {Boolean} absolute
+ * @returns {Array}
  */
 function patchThreshold(threshold, absolute) {
-  if (Is.numberType(threshold) && isFinite(threshold)) {
+  if (is.isNumber(threshold) && isFinite(threshold)) {
     if (absolute) {
       threshold = Math.abs(threshold);
     }
 
     threshold = [threshold, threshold, threshold, threshold];
-  } else if (Is.arrayType(threshold)) {
+  } else if (is.isArray(threshold)) {
     var value;
     var set = [];
     var length = threshold.length;
@@ -44,7 +46,7 @@ function patchThreshold(threshold, absolute) {
       if (set.length < 4) {
         value = threshold[i];
 
-        if (Is.numberType(value) && isFinite(value)) {
+        if (is.isNumber(value) && isFinite(value)) {
           set.push(absolute ? Math.abs(value) : value);
         }
       } else {
@@ -77,10 +79,11 @@ function patchThreshold(threshold, absolute) {
 }
 
 /**
- * Patch the viewport if it is the window object
+ * patchViewport
  *
- * @param viewport
- * @returns {*}
+ * @description Patch the viewport if it is the window object
+ * @param {window|HTMLElement} viewport
+ * @returns {HTMLElement}
  */
 function patchViewport(viewport) {
   return viewport === window
@@ -91,12 +94,12 @@ function patchViewport(viewport) {
 /**
  * Viewport
  *
- * @param viewport
- * @param options
+ * @param {window|HTMLElement} viewport
+ * @param {Object} options
  * @constructor
  */
 export default function Viewport(viewport, options) {
-  if (window !== window && Is.elementType(viewport)) {
+  if (window !== window && is.isElement(viewport)) {
     throw new Error('Viewport must be window or a HTMLElement');
   }
 
@@ -105,21 +108,21 @@ export default function Viewport(viewport, options) {
   context.events = {};
   context.id = expando++;
   context.viewport = $(viewport);
-  context.__viewport = $(patchViewport(viewport));
+  context._viewport = $(patchViewport(viewport));
 
   // init
-  context.__initOptions(options);
-  context.__findTarget();
-  context.__init();
+  context._initOptions(options);
+  context._findTargets();
+  context._init();
 }
 
 /**
  * @type {{
- *   __initOptions: Viewport.__initOptions,
- *   __findTarget: Viewport.__findTarget,
- *   __filterTargetInViewport: Viewport.__filterTargetInViewport,
- *   __changeViewport: Viewport.__changeViewport,
- *   __init: Viewport.__init,
+ *   _initOptions: Viewport._initOptions,
+ *   _findTargets: Viewport._findTargets,
+ *   _filterTargets: Viewport._filterTargets,
+ *   _changeViewport: Viewport._changeViewport,
+ *   _init: Viewport._init,
  *   on: Viewport.on,
  *   off: Viewport.off,
  *   emit: Viewport.emit,
@@ -128,7 +131,7 @@ export default function Viewport(viewport, options) {
  * }}
  */
 Viewport.prototype = {
-  __initOptions: function(options) {
+  _initOptions: function(options) {
     options = $.extend({
       delay: 150,
       target: null,
@@ -139,7 +142,7 @@ Viewport.prototype = {
 
     var delay = options.delay;
 
-    delay = Is.numberType(delay) && isFinite(delay) ? Math.abs(delay) : 150;
+    delay = is.isNumber(delay) && isFinite(delay) ? Math.abs(delay) : 150;
 
     options.delay = delay;
     options.threshold = patchThreshold(options.threshold);
@@ -147,19 +150,19 @@ Viewport.prototype = {
 
     this.options = options;
   },
-  __findTarget: function() {
+  _findTargets: function() {
     var context = this;
     var options = context.options;
     var target = options.target;
-    var __viewport = context.__viewport;
+    var _viewport = context._viewport;
 
-    if (Is.stringType(target)) {
-      target = __viewport.find(target);
-    } else if (Is.elementType(target) && $.contains(__viewport[0], target)) {
+    if (is.isString(target)) {
+      target = _viewport.find(target);
+    } else if (is.isElement(target) && $.contains(_viewport[0], target)) {
       target = $(target);
     } else if (target instanceof $) {
       target = target.filter(function() {
-        return $.contains(__viewport[0], this);
+        return $.contains(_viewport[0], this);
       });
     } else {
       target = null;
@@ -167,7 +170,7 @@ Viewport.prototype = {
 
     context.target = target;
   },
-  __filterTargetInViewport: function(width, height) {
+  _filterTargets: function(width, height) {
     var result = [];
     var context = this;
     var target = context.target;
@@ -220,19 +223,19 @@ Viewport.prototype = {
 
     return result;
   },
-  __changeViewport: function(emitter, vertical, horizontal) {
+  _changeViewport: function(emitter, vertical, horizontal) {
     var context = this;
     var options = context.options;
     var viewport = context.viewport;
-    var __viewport = context.__viewport;
+    var _viewport = context._viewport;
     var thresholdBorderReaching = options.thresholdBorderReaching;
 
     if (viewport[0] !== window && !viewport.is(':visible')) return;
 
     var width = viewport.innerWidth();
     var height = viewport.innerHeight();
-    var scrollWidth = __viewport[0].scrollWidth;
-    var scrollHeight = __viewport[0].scrollHeight;
+    var scrollWidth = _viewport[0].scrollWidth;
+    var scrollHeight = _viewport[0].scrollHeight;
 
     // Event object
     var event = {};
@@ -253,7 +256,7 @@ Viewport.prototype = {
     event.viewport = [width, height, scrollWidth, scrollHeight];
 
     // Target
-    event.target = context.__filterTargetInViewport(width, height);
+    event.target = context._filterTargets(width, height);
 
     // Calculate viewport border reaching detail infos
     event.top = event.scrollTop - thresholdBorderReaching[0] <= 0;
@@ -267,7 +270,7 @@ Viewport.prototype = {
     // Return scrollbar position
     return event;
   },
-  __init: function() {
+  _init: function() {
     // Delay trigger the scroll and resize event.
     var context = this;
     var id = context.id;
@@ -280,7 +283,7 @@ Viewport.prototype = {
     // Change viewport
     function changeViewport(e) {
       // Trigger the viewchange event internally.
-      var event = context.__changeViewport(e.type, scrollTop, scrollLeft);
+      var event = context._changeViewport(e.type, scrollTop, scrollLeft);
 
       // Cahce scroll position
       if (event) {
@@ -314,7 +317,7 @@ Viewport.prototype = {
     viewport.on('scroll' + namespace + ' resize' + namespace, handler);
 
     // Init event
-    context.__changeViewport('init', scrollTop, scrollLeft);
+    context._changeViewport('init', scrollTop, scrollLeft);
   },
   on: function(event, handler) {
     var context = this;
@@ -359,12 +362,12 @@ Viewport.prototype = {
     var viewport = context.viewport;
 
     // If set options
-    if (arguments.length && Is.typeOf(options, 'object')) {
-      context.__initOptions($.extend(context.options, options));
+    if (arguments.length && is.typeOf(options, 'object')) {
+      context._initOptions($.extend(context.options, options));
     }
 
-    context.__findTarget();
-    context.__changeViewport('refresh', viewport.scrollTop(), viewport.scrollLeft());
+    context._findTargets();
+    context._changeViewport('refresh', viewport.scrollTop(), viewport.scrollLeft());
 
     return context;
   },
