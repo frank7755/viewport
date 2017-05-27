@@ -216,15 +216,15 @@
 
     // init
     context._initOptions(options);
-    context._findTargets();
+    context._findTarget();
     context._init();
   }
 
   /**
    * @type {{
    *   _initOptions: Viewport._initOptions,
-   *   _findTargets: Viewport._findTargets,
-   *   _filterTargets: Viewport._filterTargets,
+   *   _findTarget: Viewport._findTarget,
+   *   _filterTarget: Viewport._filterTarget,
    *   _viewChange: Viewport._viewChange,
    *   _init: Viewport._init,
    *   on: Viewport.on,
@@ -254,7 +254,7 @@
 
       this.options = options;
     },
-    _findTargets: function() {
+    _findTarget: function() {
       var context = this;
       var options = context.options;
       var target = options.target;
@@ -274,7 +274,7 @@
 
       context.target = target;
     },
-    _filterTargets: function(width, height) {
+    _filterTarget: function(width, height) {
       var result = [];
       var context = this;
       var target = context.target;
@@ -304,7 +304,10 @@
         var rect = element.getBoundingClientRect();
 
         // Hidden element
-        if (rect.top == 0 && rect.bottom == 0 && rect.left == 0 && rect.right == 0) {
+        if (rect.top === 0
+          && rect.bottom === 0
+          && rect.left === 0
+          && rect.right === 0) {
           if (!skipHidden) {
             result.push(element);
           }
@@ -327,7 +330,7 @@
 
       return result;
     },
-    _viewChange: function(emitter, vertical, horizontal) {
+    _viewChange: function(emitter, scrollTop, scrollLeft) {
       var context = this;
       var options = context.options;
       var viewport = context.viewport;
@@ -347,8 +350,8 @@
       // Scrollbar position
       event.scrollTop = viewport.scrollTop();
       event.scrollLeft = viewport.scrollLeft();
-      event.offsetY = event.scrollTop - vertical;
-      event.offsetX = event.scrollLeft - horizontal;
+      event.offsetY = event.scrollTop - scrollTop;
+      event.offsetX = event.scrollLeft - scrollLeft;
 
       // Event emitter
       event.emitter = emitter;
@@ -360,7 +363,7 @@
       event.viewport = [width, height, scrollWidth, scrollHeight];
 
       // Target
-      event.target = context._filterTargets(width, height);
+      event.target = context._filterTarget(width, height);
 
       // Calculate viewport border reaching detail infos
       event.top = event.scrollTop - thresholdBorderReaching[0] <= 0;
@@ -384,8 +387,8 @@
       var scrollLeft = viewport.scrollLeft();
       var namespace = '.viewport-' + id;
 
-      // Change viewport
-      function changeViewport(e) {
+      // View change callback
+      function viewChange(e) {
         // Trigger the viewchange event internally.
         var event = context._viewChange(e.type, scrollTop, scrollLeft);
 
@@ -410,11 +413,11 @@
 
           // Delay execute
           timer = setTimeout(function() {
-            changeViewport(e);
+            viewChange(e);
           }, options.delay);
         };
       } else {
-        handler = changeViewport;
+        handler = viewChange;
       }
 
       // Bind event
@@ -470,7 +473,7 @@
         context._initOptions($.extend(context.options, options));
       }
 
-      context._findTargets();
+      context._findTarget();
       context._viewChange('refresh', viewport.scrollTop(), viewport.scrollLeft());
 
       return context;
