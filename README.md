@@ -127,4 +127,4 @@ $(function() {
 #### [Viewport scroll spy and viewport image lazyload](https://nuintun.github.io/viewport/examples/index.html)
 
 [david-image]: https://img.shields.io/david/dev/nuintun/viewport.svg?style=flat-square
-[david-url]: https://david-dm.org/nuintun/viewport
+[david-url]: https://david-dm.org/nuintun/viewport?type=dev

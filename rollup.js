@@ -22,7 +22,7 @@ rollup.rollup({
       format: 'umd',
       indent: true,
       useStrict: true,
-      moduleId: 'viewport',
+      amd: { id: 'viewport' },
       moduleName: 'Viewport',
       globals: {
         jquery: 'jQuery'
