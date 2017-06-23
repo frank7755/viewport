@@ -4,7 +4,7 @@
   (global.Viewport = factory(global.jQuery));
 }(this, (function ($) { 'use strict';
 
-  $ = 'default' in $ ? $['default'] : $;
+  $ = $ && 'default' in $ ? $['default'] : $;
 
   /*!
    * typeOf
