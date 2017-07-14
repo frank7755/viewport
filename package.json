@@ -24,7 +24,7 @@
     "viewport-change"
   ],
   "devDependencies": {
-    "rollup": "^0.43.0",
-    "uglify-js": "^3.0.20"
+    "rollup": "^0.45.2",
+    "uglify-es": "^3.0.24"
   }
 }
