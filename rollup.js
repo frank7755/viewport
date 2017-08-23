@@ -6,7 +6,7 @@ const uglify = require('uglify-es');
 
 rollup.rollup({
   legacy: true,
-  entry: 'src/viewport.js',
+  input: 'src/viewport.js',
   external: ['jquery']
 }).then(function(bundle) {
   fs.stat('dist', function(error) {
@@ -21,9 +21,9 @@ rollup.rollup({
     bundle.generate({
       format: 'umd',
       indent: true,
-      useStrict: true,
+      strict: true,
       amd: { id: 'viewport' },
-      moduleName: 'Viewport',
+      name: 'Viewport',
       globals: { jquery: 'jQuery' }
     }).then(function(result) {
       fs.writeFileSync(src, result.code);
