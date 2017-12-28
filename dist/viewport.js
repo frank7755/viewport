@@ -1,3 +1,12 @@
+/**
+ * @module viewport
+ * @author nuintun
+ * @license MIT
+ * @version 0.0.1
+ * @description A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
+ * @see https://github.com/nuintun/viewport
+ */
+
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) :
   typeof define === 'function' && define.amd ? define('viewport', ['jquery'], factory) :
