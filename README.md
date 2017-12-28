@@ -1,10 +1,11 @@
 # viewport
 
->A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
+> A library for get a callback when any element becomes visible in a viewport (window or custom viewport)
 >
->[![Dependencies][david-image]][david-url]
+> [![Dependencies][david-image]][david-url]
 
 ## Introduction
+
 ```js
 // image lazy load
 $(function() {
@@ -27,103 +28,133 @@ $(function() {
       image.removeAttr('data-src');
       image.addClass('ui-loading');
 
-      $('<img />').on('load error', { image: image, src: src }, function(event) {
-        var image = event.data.image;
-        var src = event.data.src;
+      $('<img />')
+        .on('load error', { image: image, src: src }, function(event) {
+          var image = event.data.image;
+          var src = event.data.src;
 
-        image
-          .hide()
-          .removeClass('ui-loading')
-          .attr('src', src)
-          .fadeIn('fast');
-      }).attr('src', src);
+          image
+            .hide()
+            .removeClass('ui-loading')
+            .attr('src', src)
+            .fadeIn('fast');
+        })
+        .attr('src', src);
     });
   });
 });
 ```
 
 ## API
+
 ### Viewport(viewport[, options])
-###### viewport - ```HTMLElement|window```
+
+###### viewport - `HTMLElement|window`
+
 > The viewport element
 
 ###### options
-- *target* - ```String|jQueryElement|HTMLElement```
-> The elements want to be watched in viewport
 
-- *threshold* - ```Number|Array```
-> With this value you can increase or decrease the threshold range viewport detection
-> The value will parsed like css margin and padding
+* _target_ - `String|jQueryElement|HTMLElement`
 
-- *skipHidden* - ```Boolean```
-> Skip hidden element in target
+  > The elements want to be watched in viewport
 
-- *delay* - ```Number```
-> The delay of viewchange event emit frequency
+* _threshold_ - `Number|Array`
 
-- *thresholdBorderReaching* - ```Number```
-> With this value you can increase or decrease the threshold range viewport border reaching detection
-> The value will parsed like css margin and padding but only accept positive number
+  > With this value you can increase or decrease the threshold range viewport detection
+  > The value will parsed like css margin and padding
+
+* _skipHidden_ - `Boolean`
+
+  > Skip hidden element in target
+
+* _delay_ - `Number`
+
+  > The delay of viewchange event emit frequency
+
+* _thresholdBorderReaching_ - `Number`
+  > With this value you can increase or decrease the threshold range viewport border reaching detection
+  > The value will parsed like css margin and padding but only accept positive number
 
 ### Method
+
 ###### on
+
 > Add a event listener
 
 ###### off
+
 > Remove a event listener
 
 ###### emit(event[, data])
+
 > Trigger a event
 
 ###### refresh([options])
+
 > Refresh viewport
 
 ###### destroy()
+
 > Destroy viewport
 
-
 ### Event
+
 ###### viewchange
+
 > When viewport on scroll and resize, it will emit viewchange event
 
 ### Event Data
-- *type*
-> Event type, always ```viewchange```
 
-- *emitter*
-> The emitter of triggered viewchange, maybe ```init|refresh|scroll|resize```
+* _type_
 
-- *target*
-> The element appear into viewport now
+  > Event type, always `viewchange`
 
-- *offsetX*
-> The scrollbar offset x
+* _emitter_
 
-- *offsetY*
-> The scrollbar offset y
+  > The emitter of triggered viewchange, maybe `init|refresh|scroll|resize`
 
-- *scrollTop*
-> The scrollbar scroll top
+* _target_
 
-- *scrollLeft*
-> The scrollbar scroll left
+  > The element appear into viewport now
 
-- *viewport*
-> The viewport size [width, height, scrollWidth, scrollHeight]
+* _offsetX_
 
-- *top*
-> Is scrollbar reached viewport top
+  > The scrollbar offset x
 
-- *right*
-> Is scrollbar reached viewport right
+* _offsetY_
 
-- *bottom*
-> Is scrollbar reached viewport bottom
+  > The scrollbar offset y
 
-- *left*
-> Is scrollbar reached viewport left
+* _scrollTop_
+
+  > The scrollbar scroll top
+
+* _scrollLeft_
+
+  > The scrollbar scroll left
+
+* _viewport_
+
+  > The viewport size [width, height, scrollWidth, scrollHeight]
+
+* _top_
+
+  > Is scrollbar reached viewport top
+
+* _right_
+
+  > Is scrollbar reached viewport right
+
+* _bottom_
+
+  > Is scrollbar reached viewport bottom
+
+* _left_
+  > Is scrollbar reached viewport left
 
 ## Demo
+
 #### [Viewport scroll spy and viewport image lazyload](https://nuintun.github.io/viewport/examples/index.html)
 
 [david-image]: https://img.shields.io/david/dev/nuintun/viewport.svg?style=flat-square
