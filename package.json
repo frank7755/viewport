@@ -1,8 +1,7 @@
 {
   "name": "viewport",
   "version": "0.0.1",
-  "description":
-    "A library for get a callback when any element becomes visible in a viewport (window or custom viewport)",
+  "description": "A library for get a callback when any element becomes visible in a viewport (window or custom viewport)",
   "author": {
     "name": "nuintun",
     "email": "nuintun@qq.com"
@@ -16,9 +15,16 @@
   "bugs": {
     "url": "https://github.com/nuintun/viewport/issues"
   },
-  "keywords": ["spy", "scroll", "viewport", "lazy-load", "scroll-spy", "viewport-change"],
+  "keywords": [
+    "spy",
+    "scroll",
+    "viewport",
+    "lazy-load",
+    "scroll-spy",
+    "viewport-change"
+  ],
   "devDependencies": {
-    "rollup": "^0.53.0",
-    "uglify-es": "^3.3.2"
+    "rollup": "^0.53.3",
+    "uglify-es": "^3.3.4"
   }
 }
