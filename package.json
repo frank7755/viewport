@@ -18,7 +18,7 @@
   },
   "keywords": ["spy", "scroll", "viewport", "lazy-load", "scroll-spy", "viewport-change"],
   "devDependencies": {
-    "rollup": "^0.53.3",
-    "uglify-es": "^3.3.4"
+    "rollup": "^0.54.0",
+    "uglify-es": "^3.3.7"
   }
 }
