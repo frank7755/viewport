@@ -59,9 +59,11 @@ export function isString(value) {
  * @param {any} value
  * @returns {Boolean}
  */
-export var isArray = Array.isArray || function(value) {
-  return typeOf(value, 'array');
-}
+export var isArray =
+  Array.isArray ||
+  function(value) {
+    return typeOf(value, 'array');
+  };
 
 /**
  * isNumber

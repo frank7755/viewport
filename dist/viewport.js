@@ -76,9 +76,11 @@
    * @param {any} value
    * @returns {Boolean}
    */
-  var isArray = Array.isArray || function(value) {
-    return typeOf(value, 'array');
-  };
+  var isArray =
+    Array.isArray ||
+    function(value) {
+      return typeOf(value, 'array');
+    };
 
   /**
    * isNumber
@@ -200,7 +202,7 @@
    */
   function patchViewport(viewport) {
     return viewport === window
-      ? (document.compatMode === 'CSS1Compat' ? document.documentElement : document.body)
+      ? document.compatMode === 'CSS1Compat' ? document.documentElement : document.body
       : viewport;
   }
 
@@ -245,13 +247,16 @@
    */
   Viewport.prototype = {
     _initOptions: function(options) {
-      options = $.extend({
-        delay: 150,
-        target: null,
-        threshold: 0,
-        skipHidden: true,
-        thresholdBorderReaching: 0
-      }, options);
+      options = $.extend(
+        {
+          delay: 150,
+          target: null,
+          threshold: 0,
+          skipHidden: true,
+          thresholdBorderReaching: 0
+        },
+        options
+      );
 
       var delay = options.delay;
 
@@ -313,10 +318,7 @@
         var rect = element.getBoundingClientRect();
 
         // Hidden element
-        if (rect.top === 0
-          && rect.bottom === 0
-          && rect.left === 0
-          && rect.right === 0) {
+        if (rect.top === 0 && rect.bottom === 0 && rect.left === 0 && rect.right === 0) {
           if (!skipHidden) {
             result.push(element);
           }
@@ -328,10 +330,14 @@
           var right = rect.right - offsetLeft;
 
           // Adjust position
-          if (!(top - threshold[2] >= height
-              || right + threshold[3] <= 0
-              || bottom + threshold[0] <= 0
-              || left - threshold[1] >= width)) {
+          if (
+            !(
+              top - threshold[2] >= height ||
+              right + threshold[3] <= 0 ||
+              bottom + threshold[0] <= 0 ||
+              left - threshold[1] >= width
+            )
+          ) {
             result.push(element);
           }
         }
@@ -438,8 +444,7 @@
     on: function(event, handler) {
       var context = this;
 
-      context.events[event] = context.events[event]
-        || $.Callbacks('memory stopOnFalse');
+      context.events[event] = context.events[event] || $.Callbacks('memory stopOnFalse');
 
       context.events[event].add(handler);
 
@@ -466,8 +471,7 @@
       var context = this;
       var data = [].slice.call(arguments, 1);
 
-      context.events[event] = context.events[event]
-        || $.Callbacks('memory stopOnFalse');
+      context.events[event] = context.events[event] || $.Callbacks('memory stopOnFalse');
 
       this.events[event].fireWith(context, data);
 
